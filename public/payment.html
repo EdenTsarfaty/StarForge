@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login - StarForge</title>
+  <title>Payment - StarForge</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,12 +16,12 @@
   <a href="register.html">Register</a>
 </nav>
 
-  <h1>Login</h1>
-  <form method="POST" action="/login">
-    <label>Username: <input type="text" name="username" required></label><br>
-    <label>Password: <input type="password" name="password" required></label><br>
-    <label><input type="checkbox" name="remember"> Remember me</label><br>
-    <button type="submit">Login</button>
+  <h1>Payment</h1>
+  <form method="POST" action="/pay">
+    <label>Card Number: <input type="text" name="card" required></label><br>
+    <label>Expiry Date: <input type="text" name="expiry" required></label><br>
+    <label>CVV: <input type="text" name="cvv" required></label><br>
+    <button type="submit">Pay</button>
   </form>
 </body>
 </html>

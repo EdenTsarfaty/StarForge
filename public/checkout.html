@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - StarForge</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+<nav>
+  <a href="index.html">Store</a> | 
+  <a href="cart.html">Cart</a> | 
+  <a href="myitems.html">My Items</a> | 
+  <a href="admin.html">Admin</a> | 
+  <a href="login.html">Login</a> | 
+  <a href="register.html">Register</a>
+</nav>
+
+  <h1>Checkout</h1>
+  <form method="POST" action="/checkout">
+    <p>Select items to purchase:</p>
+    <div id="checkout-list">
+      <!-- Dynamically filled -->
+    </div>
+    <a href="payment.html"><button type="button">Continue to Payment</button></a>
+  </form>
+</body>
+</html>
