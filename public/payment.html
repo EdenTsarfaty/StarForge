@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Payment - StarForge</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   
@@ -18,10 +18,33 @@
 
   <h1>Payment</h1>
   <form method="POST" action="/pay">
-    <label>Card Number: <input type="text" name="card" required></label><br>
-    <label>Expiry Date: <input type="text" name="expiry" required></label><br>
-    <label>CVV: <input type="text" name="cvv" required></label><br>
+    <div>
+      <label for="card">Token ID: </label>
+      <input type="text" name="card" inputmode="numeric" maxlength="16"
+      placeholder="1234 5678 9101 1112" autocomplete="cc-number" required></input><br>
+    </div>
+  
+    <div>
+      <label>Cycle Code: <input type="text" name="expiry-mm" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="cc-exp-month" required>
+      <span>/</span><input type="text" name="expiry-yy" placeholder="YY" maxlength="2" inputmode="numeric" autocomplete="cc-exp-year" required></label><br>
+    </div>
+
+    <div>
+      <label for="cvv">Auth Key: </label>
+      <input type="text" name="cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc" required></label><br>
+    </div>
+    <div>
+      <label for="name">Pilot Registry Name: </label>
+      <input type="text" name="name" autocomplete="cc-name" required><br>
+    </div>
     <button type="submit">Pay</button>
   </form>
+
+  <footer>
+    <p>
+      <a href="readme.html">Readme</a> | 
+      <a href="llm.html">LLM</a>
+    </p>
+  </footer>
 </body>
 </html>

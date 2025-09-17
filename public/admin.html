@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin - StarForge</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   
@@ -17,18 +17,33 @@
 </nav>
 
   <h1>Admin Panel</h1>
-  <h2>User Activity</h2>
-  <input type="text" placeholder="Filter by username prefix">
-  <table border="1">
-    <tr><th>Date/Time</th><th>Username</th><th>Activity</th></tr>
-  </table>
+  <div>
+    <h2>User Activity</h2>
+    <input type="text" placeholder="Username..">
+    <table>
+      <tr>
+        <th>Date/Time</th><th>Username</th><th>Activity</th>
+      </tr>    
+    </table>
+  </div>
 
-  <h2>Manage Products</h2>
-  <form method="POST" action="/admin/add-product">
-    <label>Title: <input type="text" name="title"></label><br>
-    <label>Description: <input type="text" name="description"></label><br>
-    <label>Image URL: <input type="url" name="image"></label><br>
-    <button type="submit">Add Product</button>
-  </form>
+  <div>
+    <h2>Manage Products</h2>
+    <form method="POST" action="/admin/add-product">
+      <label>Title: <input type="text" name="title"></label><br>
+      <label for="description">Description: </label>
+      <textarea id="description" name="description" rows="4" cols="40"></textarea><br>
+      <label>Cost: <input type="number" name="cost"></label><br>
+      <label>Image URL: <input type="url" name="image"></label><br>
+      <button type="submit">Add Product</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>
+      <a href="readme.html">Readme</a> | 
+      <a href="llm.html">LLM</a>
+    </p>
+  </footer>
 </body>
 </html>

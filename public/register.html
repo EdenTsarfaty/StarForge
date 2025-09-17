@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Register - StarForge</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   
@@ -18,15 +18,54 @@
 
   <h1>Register</h1>
   <form method="POST" action="/register">
-    <label>Username:* <input type="text" name="username" required></label><br>
-    <label>Password:* <input type="password" name="password" required></label><br>
-    <label>Confirm Password:* <input type="password" name="confirm-password" required></label><br>
+    <label>Username:* <input type="text" name="username" autocomplete="username" required></label><br>
+
+    <label>Password:* 
+      <input type="password" name="password" required>
+
+        <button type="button" class="togglePassword">
+          <svg class="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              role="img" aria-labelledby="eyeTitle">
+            <path d="M2.5 12s4.5-7 9.5-7 9.5 7 9.5 7-4.5 7-9.5 7-9.5-7-9.5-7z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <svg class="eyeClosed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="display:none">
+            <path d="M13.359 11.238l1.42 1.42-1.415 1.414-1.421-1.42A7.956 7.956 0 0 1 8 13.5C3 13.5 0 8 0 8s1.293-2.187 3.64-3.738L2.22 2.842 3.636 1.43l12.02 12.02-1.414 1.415-1.883-1.627z"/>
+          </svg>
+        </button>
+
+    </label><br>
+
+    <label>Confirm Password:* 
+      <input type="password" name="confirm-password" required>
+
+        <button type="button" class="togglePassword">
+          <svg class="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              role="img" aria-labelledby="eyeTitle">
+            <path d="M2.5 12s4.5-7 9.5-7 9.5 7 9.5 7-4.5 7-9.5 7-9.5-7-9.5-7z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <svg class="eyeClosed" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="display:none">
+            <path d="M13.359 11.238l1.42 1.42-1.415 1.414-1.421-1.42A7.956 7.956 0 0 1 8 13.5C3 13.5 0 8 0 8s1.293-2.187 3.64-3.738L2.22 2.842 3.636 1.43l12.02 12.02-1.414 1.415-1.883-1.627z"/>
+          </svg>
+        </button>
+
+    </label><br> 
+
     <label>Vessel Number: <input type="text" name="vessel"></label><br>
-    <label>Phone Number:* <input type="tel" name="phone" required></label><br>
-    <Label>Date of Birth: <input type="date" name="dob"></Label><br>
-    <label>Email:* <input type="email" name="email" required></label><br>
+
+    <label>Phone Number:* <input type="tel" name="phone" autocomplete="mobile" placeholder="05x-xxx-xxxx" inputmode="tel" required></label><br>
+
+    <Label>Date of Birth: <input type="date" autocomplete="bday" name="bday"></label><br>
+
+    <label>Email:* <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="user@domain.com" required></label><br>
+
     <button type="submit">Register</button>
   </form>
+
+
   <a href="login.html">Existing user?</a>
   <footer>
   <p>
