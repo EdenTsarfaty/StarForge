@@ -1,0 +1,194 @@
+/* exo-2-regular - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Exo 2';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/exo-2-v26-latin_latin-ext-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* exo-2-italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Exo 2';
+  font-style: italic;
+  font-weight: 400;
+  src: url('../fonts/exo-2-v26-latin_latin-ext-italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* exo-2-900 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Exo 2';
+  font-style: normal;
+  font-weight: 900;
+  src: url('../fonts/exo-2-v26-latin_latin-ext-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* exo-2-900italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Exo 2';
+  font-style: italic;
+  font-weight: 900;
+  src: url('../fonts/exo-2-v26-latin_latin-ext-900italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* Reset */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Exo 2';
+}
+
+/*Global Themes */
+/* Light theme */
+:root.light {
+  --bg-header: #f0f2f5;
+  --bg-main: #ffffff;
+  --bg-footer: #f0f2f5;
+  --text-primary: #212121;
+  --text-secondary: #555;
+  --accent: #00838f;
+  --accent-hover: #006064;
+  --logo: url("../svg/logo-dark.svg");
+}
+
+/* Dark theme */
+:root.dark {
+  --bg-header: #0d1b1e;
+  --bg-main: #122b2f;
+  --bg-footer: #0d1b1e;
+  --text-primary: #e0f2f1;
+  --text-secondary: #a7c7c7;
+  --accent: #4dd0e1;
+  --accent-hover: #26a69a;
+  --logo: url("../svg/logo-light.svg");
+}
+
+/* System theme (default to light) */
+:root.system {
+  --bg-header: #f0f2f5;
+  --bg-main: #ffffff;
+  --bg-footer: #f0f2f5;
+  --text-primary: #212121;
+  --text-secondary: #555;
+  --accent: #00838f;
+  --accent-hover: #006064;
+  --logo: url("../svg/logo-dark.svg");
+}
+
+/* Override system if OS is dark */
+@media (prefers-color-scheme: dark) {
+  :root.system {
+  --bg-header: #0d1b1e;
+  --bg-main: #122b2f;
+  --bg-footer: #0d1b1e;
+  --text-primary: #e0f2f1;
+  --text-secondary: #a7c7c7;
+  --accent: #4dd0e1;
+  --accent-hover: #26a69a;
+    --logo: url("../svg/logo-light.svg");
+  }
+}
+
+
+
+/* header content */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-bottom: 2px solid var(--accent);
+  background: var(--bg-header);
+  color: var(--text-primary);
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-logo {
+  background: var(--logo) no-repeat center;
+  background-size: contain;
+  height: 4rem;
+  width: 4rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text);
+  padding: 0.25rem 0.5rem;
+}
+
+.nav a:hover {
+  color: var(--accent-hover);
+}
+
+.user-greeting {
+  font-weight: 500;
+}
+
+.btn-login, .btn-logout {
+  text-decoration: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.9rem;
+}
+
+.btn-login:hover, .btn-logout:hover {
+  opacity: 0.85;
+}
+
+#theme-select {
+  font-size: 0.9rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  background: var(--bg-header);
+  color: var(--text-primary);
+  border: 1px solid var(--accent);
+}
+
+/* main content */
+main {
+  flex: 1;
+  padding-right: 3%;
+  padding-left: 3%;
+  background: var(--bg-main);
+  color: var(--text-primary);
+}
+
+main h1 {
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+
+/* footer content */
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background: var(--bg-footer);
+  color: var(--text-secondary);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--accent-hover);
+}
