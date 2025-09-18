@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>My Items - StarForge</title>
-  <link rel="stylesheet" href="css/styles.css">
-</head>
 <body>
+  <head>
+    <meta charset="UTF-8">
+    <title>My Items - StarForge</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Applies theme before page load -->
+    <script>
+      switch (localStorage.getItem("theme")) {
+        case "dark": {
+            document.documentElement.classList.add("dark");
+        }
+
+        case "light": {
+            document.documentElement.classList.add("light");
+        }
+
+        default: {
+            document.documentElement.classList.add("system");
+        }
+      }
+    </script>
+  </head>
   
 <nav>
   <a href="index.html">Store</a> | 

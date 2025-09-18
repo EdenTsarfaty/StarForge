@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Register - StarForge</title>
-  <link rel="stylesheet" href="css/styles.css">
-</head>
 <body>
   
 <nav>
@@ -74,4 +69,26 @@
   </p>
   </footer>
 </body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Register - StarForge</title>
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Applies theme before page load -->
+    <script>
+      switch (localStorage.getItem("theme")) {
+        case "dark": {
+            document.documentElement.classList.add("dark");
+        }
+
+        case "light": {
+            document.documentElement.classList.add("light");
+        }
+
+        default: {
+            document.documentElement.classList.add("system");
+        }
+      }
+    </script>
+  </head>
 </html>

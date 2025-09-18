@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Thank You - StarForge</title>
-  <link rel="stylesheet" href="css/styles.css">
-</head>
 <body>
   
 <nav>
@@ -20,4 +15,26 @@
   <p>Your payment was successful. Safe travels with your new spacecraft parts!</p>
   <a href="index.html">Return to Store</a>
 </body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Thank You - StarForge</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Applies theme before page load -->
+    <script>
+      switch (localStorage.getItem("theme")) {
+        case "dark": {
+            document.documentElement.classList.add("dark");
+        }
+
+        case "light": {
+            document.documentElement.classList.add("light");
+        }
+
+        default: {
+            document.documentElement.classList.add("system");
+        }
+      }
+    </script>
+  </head>
 </html>

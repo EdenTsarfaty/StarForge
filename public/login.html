@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Login - StarForge</title>
-  <link rel="stylesheet" href="css/styles.css">
-</head>
 <body>
   
 <nav>
@@ -33,6 +28,29 @@
             <path d="M13.359 11.238l1.42 1.42-1.415 1.414-1.421-1.42A7.956 7.956 0 0 1 8 13.5C3 13.5 0 8 0 8s1.293-2.187 3.64-3.738L2.22 2.842 3.636 1.43l12.02 12.02-1.414 1.415-1.883-1.627z"/>
           </svg>
         </button>
+  <head>
+    <meta charset="UTF-8">
+    <title>Login - StarForge</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Applies theme before page load -->
+    <script>
+      switch (localStorage.getItem("theme")) {
+        case "dark": {
+            document.documentElement.classList.add("dark");
+        }
+
+        case "light": {
+            document.documentElement.classList.add("light");
+        }
+
+        default: {
+            document.documentElement.classList.add("system");
+        }
+      }
+    </script>
+  </head>
+  <body>
     
     </label><br>
     <label><input type="checkbox" name="remember"> Remember me</label><br>

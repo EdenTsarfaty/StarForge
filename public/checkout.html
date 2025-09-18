@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Checkout - StarForge</title>
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
   
 <nav>
   <a href="index.html">Store</a> | 
@@ -25,4 +19,26 @@
     <a href="payment.html"><button type="button">Continue to Payment</button></a>
   </form>
 </body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Checkout - StarForge</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Applies theme before page load -->
+    <script>
+      switch (localStorage.getItem("theme")) {
+        case "dark": {
+            document.documentElement.classList.add("dark");
+        }
+
+        case "light": {
+            document.documentElement.classList.add("light");
+        }
+
+        default: {
+            document.documentElement.classList.add("system");
+        }
+      }
+    </script>
+  </head>
 </html>
