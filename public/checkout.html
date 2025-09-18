@@ -10,10 +10,12 @@
       switch (localStorage.getItem("theme")) {
         case "dark": {
             document.documentElement.classList.add("dark");
+            break;
         }
 
         case "light": {
             document.documentElement.classList.add("light");
+            break;
         }
 
         default: {
@@ -47,8 +49,9 @@
         <select id="theme-select">
           <option value="light">☀️ Light</option>
           <option value="dark">🌙 Dark</option>
-          <option value="system" selected>💻 System</option>
+          <option value="system">💻 System</option>
         </select>
+        <script src="js/theme.js"></script>
       </div>
     </header>
 
