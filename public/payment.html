@@ -1,47 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<body>
-  
-<nav>
-  <a href="index.html">Store</a> | 
-  <a href="cart.html">Cart</a> | 
-  <a href="myitems.html">My Items</a> | 
-  <a href="admin.html">Admin</a> | 
-  <a href="login.html">Login</a> | 
-  <a href="register.html">Register</a>
-</nav>
-
-  <h1>Payment</h1>
-  <form method="POST" action="/pay">
-    <div>
-      <label for="card">Token ID: </label>
-      <input type="text" name="card" inputmode="numeric" maxlength="16"
-      placeholder="1234 5678 9101 1112" autocomplete="cc-number" required></input><br>
-    </div>
-  
-    <div>
-      <label>Cycle Code: <input type="text" name="expiry-mm" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="cc-exp-month" required>
-      <span>/</span><input type="text" name="expiry-yy" placeholder="YY" maxlength="2" inputmode="numeric" autocomplete="cc-exp-year" required></label><br>
-    </div>
-
-    <div>
-      <label for="cvv">Auth Key: </label>
-      <input type="text" name="cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc" required></label><br>
-    </div>
-    <div>
-      <label for="name">Pilot Registry Name: </label>
-      <input type="text" name="name" autocomplete="cc-name" required><br>
-    </div>
-    <button type="submit">Pay</button>
-  </form>
-
-  <footer>
-    <p>
-      <a href="readme.html">Readme</a> | 
-      <a href="llm.html">LLM</a>
-    </p>
-  </footer>
-</body>
   <head>
     <meta charset="UTF-8">
     <title>Payment - StarForge</title>
@@ -64,4 +22,68 @@
       }
     </script>
   </head>
+
+
+  <body>
+    <header class="main-header">
+      <div class="header-left">
+        <span alt="StarForge" class="header-logo"></span>
+        <nav class="nav">
+          <a href="store.html">Store</a>
+          <a href="cart.html">Cart</a>
+          <!-- Admin link only if admin logged in -->
+          <a href="admin.html" class="admin-link">Admin</a>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <!-- Show only if user logged in -->
+        <span class="user-greeting"></span>
+
+        <!-- Either Logout (if logged in) or Login (if not) -->
+        <a href="myitems.html"></a>
+        <a href="logout.html" class="btn-logout"></a>
+
+        <!-- Theme selector -->
+        <select id="theme-select">
+          <option value="light">☀️ Light</option>
+          <option value="dark">🌙 Dark</option>
+          <option value="system" selected>💻 System</option>
+        </select>
+      </div>
+    </header>
+
+    <main>
+      <h1>Payment</h1>
+      <form method="POST" action="/pay">
+        <div>
+          <label for="card">Token ID: </label>
+          <input type="text" name="card" inputmode="numeric" maxlength="16"
+          placeholder="1234 5678 9101 1112" autocomplete="cc-number" required></input><br>
+        </div>
+      
+        <div>
+          <label>Cycle Code: <input type="text" name="expiry-mm" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="cc-exp-month" required>
+          <span>/</span><input type="text" name="expiry-yy" placeholder="YY" maxlength="2" inputmode="numeric" autocomplete="cc-exp-year" required></label><br>
+        </div>
+
+        <div>
+          <label for="cvv">Auth Key: </label>
+          <input type="text" name="cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc" required></label><br>
+        </div>
+        <div>
+          <label for="name">Pilot Registry Name: </label>
+          <input type="text" name="name" autocomplete="cc-name" required><br>
+        </div>
+        <button type="submit">Pay</button>
+      </form>
+    </main>
+
+    <footer>
+      <p>
+        <a href="readme.html">Readme</a> | 
+        <a href="llm.html">LLM</a>
+      </p>
+    </footer>
+  </body>
 </html>

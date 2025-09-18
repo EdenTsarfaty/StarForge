@@ -1,20 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<body>
-  
-<nav>
-  <a href="index.html">Store</a> | 
-  <a href="cart.html">Cart</a> | 
-  <a href="myitems.html">My Items</a> | 
-  <a href="admin.html">Admin</a> | 
-  <a href="login.html">Login</a> | 
-  <a href="register.html">Register</a>
-</nav>
-
-  <h1>Thank You!</h1>
-  <p>Your payment was successful. Safe travels with your new spacecraft parts!</p>
-  <a href="index.html">Return to Store</a>
-</body>
   <head>
     <meta charset="UTF-8">
     <title>Thank You - StarForge</title>
@@ -37,4 +22,49 @@
       }
     </script>
   </head>
+  <body>
+    
+    <header class="main-header">
+      <div class="header-left">
+        <span alt="StarForge" class="header-logo"></span>
+        <nav class="nav">
+          <a href="store.html">Store</a>
+          <a href="cart.html">Cart</a>
+          <!-- Admin link only if admin logged in -->
+          <a href="admin.html" class="admin-link">Admin</a>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <!-- Show only if user logged in -->
+        <span class="user-greeting"></span>
+
+        <!-- Either Logout (if logged in) or Login (if not) -->
+        <a href="myitems.html">My Items</a>
+        <a href="logout.html" class="btn-logout"></a>
+
+        <!-- Theme selector -->
+        <select id="theme-select">
+          <option value="light">☀️ Light</option>
+          <option value="dark">🌙 Dark</option>
+          <option value="system" selected>💻 System</option>
+        </select>
+      </div>
+    </header>
+    
+
+    <main>
+    <h1>Thank You!</h1>
+    <p>Your payment was successful. Safe travels with your new spacecraft parts!</p>
+    <a href="index.html">Return to Store</a>
+    </main>
+
+
+    <footer>
+    <p>
+      <a href="readme.html">Readme</a> | 
+      <a href="llm.html">LLM</a>
+    </p>
+    </footer>
+  </body>
 </html>
