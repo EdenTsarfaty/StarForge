@@ -1,0 +1,55 @@
+const form = document.getElementById("register-form");
+
+const password = document.getElementsByName("password")[0];
+const confirmation = document.getElementsByName("confirm-password")[0];
+const error = document.getElementById("pass-not-match-err");
+var password_match = true;
+
+// Checks that the password field and password confirmation fields are the same
+function validatePassword() {
+    if (password.value !== confirmation.value) {
+        error.hidden = false;
+        password_match = false;
+    }
+    else {
+        error.hidden = true;
+        password_match = true;
+    }
+}
+password.addEventListener("focusout", validatePassword);
+confirmation.addEventListener("focusout", validatePassword);
+
+
+// Enables the password toggle button
+const toggle_pass_visibility = document.getElementById("togglePassword"); 
+const eye_open = document.querySelector(".fa-eye");
+const eye_closed = document.querySelector(".fa-eye-slash");
+toggle_pass_visibility.addEventListener("click", () => {
+    if (password.type === "password") {
+        password.type = "text";
+        confirmation.type = "text";
+        eye_open.style.display = "none";
+        eye_closed.style.display = "inline"
+    } else {
+        password.type = "password";
+        confirmation.type = "password";
+        eye_open.style.display = "inline";
+        eye_closed.style.display = "none"
+    }
+});
+
+
+// Collects all form fields
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (password_match) {
+        const data = new FormData(e.target);
+        const username = data.get("username");
+        const password = data.get("password");
+        const vessel = data.get("vessel");
+        const phone = data.get("phone");
+        const date_of_birth = data.get("date_of_birth");
+        const email = data.get("email");
+        console.log(username, password, vessel, phone, date_of_birth, email);
+    }
+});
