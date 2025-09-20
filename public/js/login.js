@@ -17,11 +17,22 @@ toggle_pass_visibility.addEventListener("click", () => {
     }
 });
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const username = data.get("username");
     const password = data.get("password");
     const remember = data.get("remember");
-    console.log(username, password, remember);
+    
+    const res = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, remember }),
+    });
+
+    if (res.ok) {
+        window.location.href = "/store.html";
+    } else {
+        alert("Login failed");
+    }
 });
