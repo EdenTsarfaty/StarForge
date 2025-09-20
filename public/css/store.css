@@ -1,0 +1,26 @@
+#search {
+    margin-top: 1rem;
+    min-width: 50%;
+}
+
+#product-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
+  gap: 1rem; /* spacing between cards */
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.product-card {
+  border: 1px solid var(--accent);
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--bg-footer);
+}
+
+.product-card img {
+  width: 150px;
+  height: 150px;
+  border: 1px solid var(--accent-hover);
+  border-radius: 10px;
+}

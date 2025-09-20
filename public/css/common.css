@@ -53,7 +53,12 @@ body {
   --bg-footer: #f0f2f5;
   --text-primary: #212121;
   --text-secondary: #555;
-  --icon: #212121;
+  --btn-bg: #0097a7;
+  --input-bg: #ffffff;
+  --input-border: #00838f;
+  --input-glow: none;
+  --icon: #555;
+  --icon-hover: #00838f;
   --accent: #00838f;
   --accent-hover: #006064;
   --logo: url("../svg/logo-dark.svg");
@@ -66,7 +71,12 @@ body {
   --bg-footer: #0d1b1e;
   --text-primary: #e0f2f1;
   --text-secondary: #a7c7c7;
-  --icon: #e0f2f1;
+  --btn-bg: #00796b;
+  --input-bg: #0f2529;
+  --input-border: #4dd0e1;
+  --input-glow: 0 0 2px #4dd0e1, 0 0 3px #00e5ff;
+  --icon: #a7c7c7;
+  --icon-hover: #4dd0e1;
   --accent: #4dd0e1;
   --accent-hover: #26a69a;
   --logo: url("../svg/logo-light.svg");
@@ -79,7 +89,12 @@ body {
   --bg-footer: #f0f2f5;
   --text-primary: #212121;
   --text-secondary: #555;
-  --icon: #212121;
+  --btn-bg: #0097a7;
+  --input-bg: #ffffff;
+  --input-border: #00838f;
+  --input-glow: 0 0 2px #26c6da, 0 0 3px #00acc1;
+  --icon: #555;
+  --icon-hover: #00838f;
   --accent: #00838f;
   --accent-hover: #006064;
   --logo: url("../svg/logo-dark.svg");
@@ -93,10 +108,14 @@ body {
   --bg-footer: #0d1b1e;
   --text-primary: #e0f2f1;
   --text-secondary: #a7c7c7;
-  --icon: #e0f2f1;
+  --btn-bg: #00796b;
+  --input-bg: #0f2529;
+  --input-border: #4dd0e1;
+  --input-glow: 0 0 2px #4dd0e1, 0 0 3px #00e5ff;
+  --icon: #a7c7c7;
   --accent: #4dd0e1;
   --accent-hover: #26a69a;
-    --logo: url("../svg/logo-light.svg");
+  --logo: url("../svg/logo-light.svg");
   }
 }
 
@@ -146,20 +165,8 @@ header {
   font-weight: 500;
 }
 
-.btn-login, .btn-logout {
-  text-decoration: none;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
-  background: var(--accent);
-  color: var(--bg);
-  font-size: 0.9rem;
-}
-
-.btn-login:hover, .btn-logout:hover {
-  opacity: 0.85;
-}
-
 #theme-select {
+  font-family: inherit;
   font-size: 0.9rem;
   padding: 0.25rem;
   border-radius: 4px;
@@ -171,8 +178,8 @@ header {
 /* main content */
 main {
   flex: 1;
-  padding-right: 3%;
-  padding-left: 3%;
+  padding-right: 20%;
+  padding-left: 20%;
   background: var(--bg-main);
   color: var(--text-primary);
 }
@@ -182,6 +189,28 @@ main h1 {
   font-size: 2.5rem;
 }
 
+button {
+  font-family: inherit;
+  color: white;
+  background: var(--btn-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+}
+
+button:active {
+  opacity: 85%;
+}
+
+input, textarea {
+  margin-bottom: 1rem;
+  font-family: inherit;
+  color: inherit;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  box-shadow: var(--input-glow);
+  border-radius: 3px;
+  font-size: 18px;
+}
 
 /* footer content */
 footer {

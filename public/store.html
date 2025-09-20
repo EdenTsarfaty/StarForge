@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>Store - StarForge</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/store.css">
 
     <!-- Applies theme before page load -->
     <script>
@@ -43,7 +44,7 @@
         <span class="user-greeting"></span>
 
         <!-- Either Logout (if logged in) or Login (if not) -->
-        <a href="myitems.html">My Items</a>
+        <a href="myitems.html"></a>
         <a href="logout.html" class="btn-logout"></a>
 
         <!-- Theme selector -->
@@ -58,8 +59,27 @@
 
     <main>
       <input type="text" placeholder="Search spacecraft parts..." id="search">
-      <div id="products">
+      <div id="product-list">
+        <div class="product-card">
+          <h2 class="product-title">Quantum Drive</h2>
+          <img src="img/quantum_drive.png">
+          <p class="product-desc">Advanced propulsion system for deep-space travel</p>
+          <button>Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <h2 class="product-title">Plasma Shield</h2>
+          <img src="img/plasma_shield.png">
+          <p class="product-desc">Protects your spacecraft from cosmic radiation</p>
+          <button>Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <h2 class="product-title">Laser Cannon Turrets</h2>
+          <img src="img/laser_cannon_turrets.png">
+          <p class="product-desc">Reliable point defense</p>
+          <button>Add to Cart</button>
+        </div>
       </div>
+      <script src="js/store.js"></script>
     </main>
 
 
