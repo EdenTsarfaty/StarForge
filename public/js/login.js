@@ -22,7 +22,7 @@ form.addEventListener("submit", async (e) => {
     const data = new FormData(e.target);
     const username = data.get("username");
     const password = data.get("password");
-    const remember = data.get("remember");
+    const remember = data.get("remember") !== null;
     
     const res = await fetch("/login", {
         method: "POST",
@@ -33,6 +33,9 @@ form.addEventListener("submit", async (e) => {
     if (res.ok) {
         window.location.href = "/store.html";
     } else {
-        alert("Login failed");
+        error = document.getElementById("err-msg");
+        const msg = await res.text();
+        error.innerText = msg;
+        error.hidden = false;
     }
 });
