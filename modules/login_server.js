@@ -1,16 +1,19 @@
 import express from "express";
+import bcyrpt from "bcrypt";
 import { users } from "../persist_module.js";
 
 const router = express.Router();
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const { username, password, remember } = req.body;
   const user = users[username];
   if (!user) {
-    return res.status(401).send("User not found");
+    return res.status(401).send("Invalid credentials");
   }
-  if (user.password !== password) {
-    return res.status(401).send("Wrong password");
+
+  const passMatch = await bcyrpt.compare(password, user.password);
+  if (!passMatch) {
+    return res.status(401).send("Invalid credentials");
   }
   req.session.user = username;
   if (remember) {

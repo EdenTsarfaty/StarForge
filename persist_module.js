@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import bycrpt from "bcrypt";
 
 // Build dataDir path
 const __filename = fileURLToPath(import.meta.url);
@@ -40,6 +41,7 @@ async function loadAll() {
 }
 
 async function addUser(username, password, vessel, phone, dateOfBirth, email) {
+    const hashedPassword = await bycrpt.hash(password, 10);
     users[username] = {"password": password, "vessel": vessel, "phone": phone, "DoB": dateOfBirth, "email": email};
     await saveUsers();
 }
