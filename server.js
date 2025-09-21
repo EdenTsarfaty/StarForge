@@ -1,7 +1,8 @@
-const express = require('express');
-const fs = require("fs");
-const session = require("express-session");
-const pm = require("./persist_module");
+import express from "express";
+import fs from "fs";
+import session from "express-session";
+import * as persist from "./persist_module.js";
+import loginRoutes from "./modules/login_server.js";
 
 
 const app = express();
@@ -18,10 +19,8 @@ app.use(session({
   saveUninitialized: false,
 }));
 
-const persist = require('./persist_module');
-// persist.loadAll();
+await persist.loadAll();
 
-const loginRoutes = require("./modules/login_server");
 app.use('/', loginRoutes);
 
 app.listen(PORT, () => {

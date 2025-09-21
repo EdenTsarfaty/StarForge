@@ -1,10 +1,11 @@
-const express = require('express');
+import express from "express";
+import { users } from "../persist_module.js";
+
 const router = express.Router();
 
 router.post('/login', (req, res) => {
   const { username, password, remember } = req.body;
-  console.log(username, password, remember);
-  const user = users.find(u => u.username === username);
+  const user = users[username];
   if (!user) {
     return res.status(401).send("User not found");
   }
@@ -18,7 +19,7 @@ router.post('/login', (req, res) => {
     req.session.cookie.maxAge = 30 * 60 * 1000; // 30 minutes
   }
 
-
+  res.redirect('/store.html');
   // TODO: Log for activity log
 });
 
@@ -35,4 +36,4 @@ router.post('/logout', (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;
