@@ -2,17 +2,17 @@ const form = document.getElementById("register-form");
 
 const password = document.getElementsByName("password")[0];
 const confirmation = document.getElementsByName("confirm-password")[0];
-const error = document.getElementById("pass-not-match-err");
+const pass_match_err = document.getElementById("pass-not-match-err");
 var password_match = true;
 
 // Checks that the password field and password confirmation fields are the same
 function validatePassword() {
     if (password.value !== confirmation.value) {
-        error.hidden = false;
+        pass_match_err.hidden = false;
         password_match = false;
     }
     else {
-        error.hidden = true;
+        pass_match_err.hidden = true;
         password_match = true;
     }
 }
@@ -40,16 +40,32 @@ toggle_pass_visibility.addEventListener("click", () => {
 
 
 // Collects all form fields
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (password_match) {
         const data = new FormData(e.target);
-        const username = data.get("username");
+        const username = data.get("username").toLowerCase();
         const password = data.get("password");
         const vessel = data.get("vessel");
         const phone = data.get("phone");
-        const date_of_birth = data.get("date_of_birth");
+        const dateOfBirth = data.get("date_of_birth");
         const email = data.get("email");
-        console.log(username, password, vessel, phone, date_of_birth, email);
+        
+        const res = await fetch("/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password, vessel, phone, dateOfBirth, email }),
+            credentials: "include"
+        });
+
+        if (res.ok) {
+            window.location.href = "/login.html";
+        }
+        else {
+            const error = document.getElementById("err-msg");
+            const msg = await res.text();
+            error.innerText = msg;
+            error.hidden = false;
+        }
     }
 });

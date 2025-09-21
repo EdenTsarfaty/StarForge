@@ -161,8 +161,8 @@ header {
   color: var(--accent-hover);
 }
 
-.user-greeting {
-  font-weight: 500;
+#user-greeting {
+  font-weight: 900;
 }
 
 #theme-select {

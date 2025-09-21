@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import bycrpt from "bcrypt";
+import bcrypt from "bcrypt";
 
 // Build dataDir path
 const __filename = fileURLToPath(import.meta.url);
@@ -41,16 +41,20 @@ async function loadAll() {
 }
 
 async function addUser(username, password, vessel, phone, dateOfBirth, email) {
-    const hashedPassword = await bycrpt.hash(password, 10);
-    users[username] = {"password": password, "vessel": vessel, "phone": phone, "DoB": dateOfBirth, "email": email};
-    await saveUsers();
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        users[username] = {"password": hashedPassword, "vessel": vessel, "phone": phone, "DoB": dateOfBirth, "email": email};
+        await saveUsers();
+    } catch (err) {
+        console.error("Error adding user:", err);
+        throw err;
+    }
 }
 
 async function saveUsers () {
     try {
         await fs.writeFile(join(dataDir, "users.json"), JSON.stringify(users, null, 2), "utf-8");
-    }
-    catch(err) {
+    } catch(err) {
         console.log("Error saving users.json:", err);
         throw err;
     }

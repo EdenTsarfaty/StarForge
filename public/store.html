@@ -32,21 +32,22 @@
       <div class="header-left">
         <span alt="StarForge" class="header-logo"></span>
         <nav class="nav">
-          <a href="store.html">Store</a>
-          <a href="cart.html">Cart</a>
+          <a href="store.html" id="store-link">Store</a>
+          <a href="cart.html" id="cart-link" style="display: none;">Cart</a>
           <!-- Admin link only if admin logged in -->
-          <a href="admin.html" class="admin-link">Admin</a>
+          <a href="admin.html" id="admin-link" style="display: none;">Admin</a>
         </nav>
       </div>
 
       <div class="header-right">
         <!-- Show only if user logged in -->
-        <span class="user-greeting"></span>
+        <nav class="nav">
+          <span id="user-greeting"></span>
 
-        <!-- Either Logout (if logged in) or Login (if not) -->
-        <a href="myitems.html"></a>
-        <a href="logout.html" class="btn-logout"></a>
-
+          <!-- Either Logout (if logged in) or Login (if not) -->
+          <a href="myitems.html" id="my-items-link" style="display: none;">My Items</a>
+          <a id="btn-log"></a>
+        </nav>
         <!-- Theme selector -->
         <select id="theme-select">
           <option value="light">☀️ Light</option>

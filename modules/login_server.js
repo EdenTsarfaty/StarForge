@@ -18,7 +18,7 @@ router.post('/login', async (req, res) => {
     return res.status(401).send("Invalid credentials");
   }
   req.session.user = username;
-  req.session.isAdmin = req.session.isAdmin = (username.isAdmin === "admin");
+  req.session.isAdmin = (user.isAdmin === true);
   if (remember) {
     req.session.cookie.maxAge = 12 * 24 * 60 * 60 * 1000; // 12 days
   } else {
@@ -26,10 +26,10 @@ router.post('/login', async (req, res) => {
   }
 
   recordActivity(new Date().toISOString(), username, "Login");
-  res.redirect('/store.html');
+  res.status(200).send("Login successful");
 });
 
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   const username = req.session.user;
   req.session.destroy(err => {
     if (err) {
@@ -37,8 +37,8 @@ router.post('/logout', (req, res) => {
       return res.status(500).send("Could not log out");
     }
     res.clearCookie('connect.sid');
-    // TODO: Log for activity log
-    res.redirect('/store.html');
+    recordActivity(new Date().toISOString(), username, "Logout");
+    res.redirect("store.html");
   });
 });
 
