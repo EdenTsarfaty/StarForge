@@ -32,12 +32,12 @@ async function updateNavbar() {
 async function loadProducts() {
   try {
     const res = await fetch('/products');
-    if (!res.ok) throw new Error("Failed to load products");
-    const fetchedProducts = await res.json();
+    if (res.ok) {
+      const fetchedProducts = await res.json();
 
-    const container = document.getElementById("product-list");
+      const container = document.getElementById("product-list");
 
-    fetchedProducts.forEach(product => {
+      fetchedProducts.array.forEach(product => {
       // create card
       const card = document.createElement("div");
       card.className = "product-card";
@@ -69,29 +69,30 @@ async function loadProducts() {
       // add-to-cart button
       const btn = document.createElement("button");
       btn.textContent = "Add to Cart";
-      // btn.addEventListener("click", async () => {
-      //   try {
-      //     const res = await fetch("/cart/add", {
-      //       method: "POST",
-      //       headers: { "Content-Type": "application/json" },
-      //       body: JSON.stringify({ productId: product.id })
-      //     });
-      //     if (res.ok) {
-      //       alert(`${product.title} added to cart`);
-      //     } else if (res.status === 401) {
-      //       window.location = "login.html"; // redirect if not logged in
-      //     } else {
-      //       alert("Failed to add to cart");
-      //     }
-      //   } catch (err) {
-      //     console.error(err);
-      //     alert("Error adding to cart");
-      //   }
-      // });
+      btn.addEventListener("click", async () => {
+        try {
+          const res = await fetch("/cart/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ productId: product.id })
+          });
+          if (res.ok) {
+            alert(`${product.title} added to cart`);
+          } else if (res.status === 401) {
+            window.location = "login.html"; // redirect if not logged in
+          } else {
+            alert("Failed to add to cart");
+          }
+        } catch (err) {
+          console.error(err);
+          throw err;
+        }
+      });
       card.appendChild(btn);
 
       container.appendChild(card);
-    });
+    }
+  )}
   } catch (err) {
     console.error("Error loading products:", err);
   }
