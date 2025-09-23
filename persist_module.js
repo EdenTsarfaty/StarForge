@@ -85,7 +85,7 @@ async function updateCart (username, items) {
         carts[username] = [];
     }
 
-    carts[username]=items;
+    carts[username] = items;
     await saveCarts();
 }
 

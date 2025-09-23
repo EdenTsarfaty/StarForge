@@ -3,13 +3,12 @@ let products;
 
 async function updateNavbar() {
   const res = await fetch("/session");
-  const data = await res.json();
-  
   logButton = document.getElementById("btn-log");
+  if (res.ok) {
+    const data = await res.json();
 
-  if (data.loggedIn) {
     logButton.innerText = "Logout";
-    logButton.href = "logout";
+    logButton.href = "/logout";
 
     userGreeting = document.getElementById("user-greeting");
     userGreeting.innerText = `Hello ${data.username}!`
@@ -20,14 +19,13 @@ async function updateNavbar() {
     myItemsLink = document.getElementById("my-items-link");
     myItemsLink.style.display = "inline";
 
-  } else {
-    logButton.innerText = "Login";
-    logButton.href = "login.html";
-  }
-
-  if (data.isAdmin) {
-    myItemsLink = document.getElementById("admin-link");
-    myItemsLink.style.display = "inline";
+    if (data.isAdmin) {
+      adminLink = document.getElementById("admin-link");
+      adminLink.style.display = "inline";
+    }
+  } else if (res.status === 401) {
+      logButton.innerText = "Login";
+      logButton.href = "/login.html";
   }
 }
 

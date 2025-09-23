@@ -1,22 +1,14 @@
 import express from "express";
 const router = express.Router();
 
-function getSessionInfo(req) {
-  return {
-    loggedIn: !!req.session.user,
-    username: req.session.user || null,
-    isAdmin: !!req.session.isAdmin
-  };
-}
-
-function checkAuth(req, res, next) {
+export function checkAuth(req, res, next) {
   if (!req.session.user) {
-    return res.redirect('/login.html'); 
+    return res.status(401).send("Unauthorized"); 
   }
   next();
 }
 
-function checkAdmin(req, res, next) {
+export function checkAdmin(req, res, next) {
   if (!req.session.user || !req.session.isAdmin) {
     return res.status(403).send('Forbidden'); 
   }
@@ -24,11 +16,10 @@ function checkAdmin(req, res, next) {
 }
 
 router.get("/session", (req, res) => {
-  const session = getSessionInfo(req);
-  if (!session.loggedIn) {
-    return res.json({ loggedIn: false });
+  if (!req.session.user) {
+    return res.status(401).json({ error: "Unauthorized" });
   }
-  res.json(session);
+  res.json({ username: req.session.user, isAdmin: !!req.session.isAdmin });
 });
 
 export default router;

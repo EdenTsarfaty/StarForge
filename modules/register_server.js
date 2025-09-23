@@ -1,5 +1,4 @@
 import express from "express";
-import bcrypt from "bcrypt";
 import { addUser, recordActivity, users } from "../persist_module.js";
 
 const router = express.Router();
