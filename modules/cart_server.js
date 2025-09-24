@@ -16,7 +16,7 @@ router.post('/cart/add', checkAuth, (req, res) => {
         recordActivity({ datetime: new Date().toISOString(), user: username, action: `Added to cart (ID: ${productId})` });
         res.json({ cartCount: cart.length });
     } catch (err) {
-        console.log("Internal error: ", err);
+        console.error("Internal error: ", err);
         res.status(500).send(`Internal error: ${err}`);
     }
   } else {
@@ -27,10 +27,15 @@ router.post('/cart/add', checkAuth, (req, res) => {
 router.delete('/cart/:id', checkAuth, (req, res) => {
   const username = req.session.user;
   const productId = req.params.id;
-  let cart = carts[username] || [];
-  cart = cart.filter(id => id !== productId);
-  updateCart(username, cart);
-  res.send(`${products[productId].title} removed from cart`);
+  try {
+    let cart = carts[username] || [];
+    cart = cart.filter(id => id !== productId);
+    updateCart(username, cart);
+    res.send(`${products[productId].title} removed from cart`);
+  } catch (err) {
+    console.error("Internal error: ", err);
+    res.status(500).send(`Internal error: ${err}`);
+  }
 });
 
 router.get('/cart-load', checkAuth, (req, res) => {
