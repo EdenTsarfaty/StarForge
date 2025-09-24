@@ -1,4 +1,4 @@
-checkedOut = []
+let checkedOut = { amount: 0, items: [] };
 const container = document.querySelector(".tbl-wrapper");
 const paymentButton = document.getElementById("payment-btn");
 
@@ -79,17 +79,17 @@ async function loadCart() {
                         try {
                             if (confirmBuyCB.checked) {
                                 sum += product.price;
-                                checkedOut.push(product);
+                                checkedOut.items.push(product.id);
                             } else {
                                 sum -= product.price;
-                                checkedOut = checkedOut.filter(p => p.id !== product.id);
+                                checkedOut.items = checkedOut.items.filter(id => id !== product.id);
                             }
-                            sessionStorage.setItem("checkedOut", JSON.stringify({amount: sum, items: checkedOut}));
+                            checkedOut.amount = sum;
+                            sessionStorage.setItem("checkedOut", JSON.stringify(checkedOut));
                             subtotalAmount.textContent = sum + " ⚛";
                         }
                         catch (err) {
                             console.error(err);
-                            throw err;
                         }
                     });
                     cell.appendChild(confirmBuyCB);
@@ -100,8 +100,9 @@ async function loadCart() {
                     
                 });
 
-                checkedOut = fetchedProducts;
-                sessionStorage.setItem("checkedOut", JSON.stringify({amount: sum, items: checkedOut}));
+                checkedOut.amount = sum;
+                checkedOut.items = fetchedProducts.map(p => p.id);
+                sessionStorage.setItem("checkedOut", JSON.stringify(checkedOut));
                 subtotalAmount.textContent = sum + " ⚛";
                 container.style.display = "block";
                 paymentButton.style.display = "block";

@@ -1,0 +1,25 @@
+input[type="radio"] {
+    accent-color: var(--accent);
+    transform: scale(1.3);
+    margin-right: 0.4em;
+    box-shadow: none;
+}
+
+.section {
+    border-radius: 8px;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* When the radio above is checked, activate the section */
+input[type="radio"]:checked + .section {
+    margin: 0.5rem 0 1.5rem;
+    padding: 0.5rem;
+    opacity: 1;
+    pointer-events: auto;
+    border: 3px solid var(--input-border);
+}
+
+.expiry, .cvv {
+    width: 2.5em;
+}

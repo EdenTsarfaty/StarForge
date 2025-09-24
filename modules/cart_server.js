@@ -13,7 +13,7 @@ router.post('/cart/add', checkAuth, (req, res) => {
     try {
         updateCart(username, cart);
 
-        recordActivity({ datetime: new Date().toISOString(), user: username, action: `Added to cart (ID: ${productId})` });
+        recordActivity( new Date().toISOString(), username, `Added to cart (ID: ${productId})` );
         res.json({ cartCount: cart.length });
     } catch (err) {
         console.error("Internal error: ", err);

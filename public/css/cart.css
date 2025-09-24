@@ -46,8 +46,3 @@ table tr:last-child td{ border-bottom: none; }
 #warning-no-items {
   text-align: center;
 }
-
-#checkout-btn, #payment-btn {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-}

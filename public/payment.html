@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Payment - StarForge</title>
     <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/payment.css">
 
     <!-- Applies theme before page load -->
     <script>
@@ -27,6 +28,8 @@
 
 
   <body>
+    <!-- Redirects user to login if not logged in -->
+    <script src="js/checkProtected.js"></script>
     <header class="main-header">
       <div class="header-left">
         <span alt="StarForge" class="header-logo"></span>
@@ -34,52 +37,62 @@
           <a href="store.html">Store</a>
           <a href="cart.html">Cart</a>
           <!-- Admin link only if admin logged in -->
-          <a href="admin.html" class="admin-link">Admin</a>
+          <a href="admin.html" id="admin-link" style="display: none;">Admin</a>
         </nav>
       </div>
 
       <div class="header-right">
         <!-- Show only if user logged in -->
-        <span class="user-greeting"></span>
+        <nav class="nav">
+          <span id="user-greeting"></span>
 
-        <!-- Either Logout (if logged in) or Login (if not) -->
-        <a href="myitems.html"></a>
-        <a href="logout.html" class="btn-logout"></a>
+          <!-- Either Logout (if logged in) or Login (if not) -->
+          <a href="myitems.html">My Items</a>
+          <a href="/logout" class="btn-logout">Logout</a>
 
-        <!-- Theme selector -->
-        <select id="theme-select">
-          <option value="light">☀️ Light</option>
-          <option value="dark">🌙 Dark</option>
-          <option value="system">💻 System</option>
-        </select>
-        <script src="js/theme.js"></script>
+          <!-- Theme selector -->
+          <select id="theme-select">
+            <option value="light">☀️ Light</option>
+            <option value="dark">🌙 Dark</option>
+            <option value="system">💻 System</option>
+          </select>
+          <script src="js/theme.js"></script>
+        </nav>
       </div>
     </header>
 
     <main>
       <h1>Payment</h1>
-      <form method="POST" action="/pay">
-        <div>
+      <h2 id="total-label">Total to pay:</h2>
+      <form id="payment-form">
+        <label for="credits"><strong>Store Credits (WIP)</strong></label>
+        <input id="credits radio" type="radio" name="payment-method" value="credits" checked>
+        
+        <div class="credits section">
+          <p>You have 120 credits. This purchase will use them.</p>
+        </div><br>
+
+        
+        <label for="card"><strong>Credit Card</strong></label>
+        <input type="radio" name="payment-method" value="card">
+
+        <div class="card section">
           <label for="card">Token ID: </label>
           <input type="text" name="card" inputmode="numeric" maxlength="16"
           placeholder="1234 5678 9101 1112" autocomplete="cc-number" required></input><br>
-        </div>
-      
-        <div>
-          <label>Cycle Code: <input type="text" name="expiry-mm" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="cc-exp-month" required>
-          <span>/</span><input type="text" name="expiry-yy" placeholder="YY" maxlength="2" inputmode="numeric" autocomplete="cc-exp-year" required></label><br>
-        </div>
 
-        <div>
+          <label>Cycle Code: <input type="text" class="expiry mm" name="expiry-mm" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="cc-exp-month" required>
+          <span>/</span><input type="text" class="expiry yy" name="expiry-yy" placeholder="YY" maxlength="2" inputmode="numeric" autocomplete="cc-exp-year" required></label><br>
+
           <label for="cvv">Auth Key: </label>
-          <input type="text" name="cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc" required></label><br>
-        </div>
-        <div>
+          <input type="text" class="cvv" name="cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc" required></label><br>
+
           <label for="name">Pilot Registry Name: </label>
           <input type="text" name="name" autocomplete="cc-name" required><br>
         </div>
         <button type="submit">Pay</button>
       </form>
+      <script src="js/payment.js"></script>
     </main>
 
     <footer>
