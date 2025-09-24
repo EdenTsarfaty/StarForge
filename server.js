@@ -6,6 +6,7 @@ import loginRoutes from "./modules/login_server.js";
 import registerRoutes from "./modules/register_server.js";
 import checkSession from "./modules/checkAuth.js"
 import storeRoutes from "./modules/store_server.js"
+import cartRoutes from "./modules/cart_server.js";
 
 
 const app = express();
@@ -28,6 +29,7 @@ app.use('/', loginRoutes);
 app.use('/', registerRoutes);
 app.use('/', checkSession);
 app.use('/', storeRoutes);
+app.use('/', cartRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

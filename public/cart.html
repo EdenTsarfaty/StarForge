@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Cart - StarForge</title>
     <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/cart.css">
 
     <!-- Applies theme before page load -->
     <script>
@@ -26,6 +27,8 @@
   </head>
 
   <body>
+    <!-- Redirects user to login if not logged in -->
+    <script src="js/checkProtected.js"></script>
     <header class="main-header">
       <div class="header-left">
         <span alt="StarForge" class="header-logo"></span>
@@ -33,34 +36,52 @@
           <a href="store.html">Store</a>
           <a href="cart.html">Cart</a>
           <!-- Admin link only if admin logged in -->
-          <a href="admin.html" class="admin-link">Admin</a>
+          <a href="admin.html" id="admin-link" style="display: none;">Admin</a>
         </nav>
       </div>
 
       <div class="header-right">
         <!-- Show only if user logged in -->
-        <span class="user-greeting"></span>
+        <nav class="nav">
+          <span id="user-greeting"></span>
 
-        <!-- Either Logout (if logged in) or Login (if not) -->
-        <a href="myitems.html"></a>
-        <a href="logout.html" class="btn-logout"></a>
+          <!-- Either Logout (if logged in) or Login (if not) -->
+          <a href="myitems.html">My Items</a>
+          <a href="/logout" class="btn-logout">Logout</a>
 
-        <!-- Theme selector -->
-        <select id="theme-select">
-          <option value="light">☀️ Light</option>
-          <option value="dark">🌙 Dark</option>
-          <option value="system">💻 System</option>
-        </select>
-        <script src="js/theme.js"></script>
+          <!-- Theme selector -->
+          <select id="theme-select">
+            <option value="light">☀️ Light</option>
+            <option value="dark">🌙 Dark</option>
+            <option value="system">💻 System</option>
+          </select>
+          <script src="js/theme.js"></script>
+        </nav>
       </div>
     </header>
 
     
     <main>
       <h1>Your Cart</h1>
-      <div id="cart-items">
+      <h2 id="warning-no-items" style="display: none;">You have no items in cart</h2>
+      <div class="tbl-wrapper" style="display: none;">
+        <table>
+            <colgroup>
+              <col style="width: 25%">
+              <col style="width: 50%">
+              <col style="width: 25%">
+              <col style="width: 25%">
+            </colgroup>
+          <tbody id="cart-items">
+          </tbody>
+          <tfoot id="subtotal">
+              <td colspan="2" style="text-align: right;" id="subtotal-label">Subtotal:</td>
+              <td colspan="2" id="subtotal-amount">0 ⚛</td>
+          </tfoot>
+        </table>
       </div>
-      <a href="checkout.html"><button>Proceed to Checkout</button></a>
+      <a href="checkout.html" id="checkout-btn" style="display: none;"><button>Proceed to Checkout</button></a>
+      <script src="js/cart.js"></script>
     </main>
 
     <footer>

@@ -191,8 +191,10 @@ main h1 {
 
 button {
   font-family: inherit;
+  font-size: inherit;
   color: white;
   background: var(--btn-bg);
+  min-height: 2rem;
   border: 1px solid var(--input-border);
   border-radius: 8px;
 }

@@ -3,24 +3,24 @@ let products;
 
 async function updateNavbar() {
   const res = await fetch("/session");
-  logButton = document.getElementById("btn-log");
+  const logButton = document.getElementById("btn-log");
   if (res.ok) {
     const data = await res.json();
 
     logButton.innerText = "Logout";
     logButton.href = "/logout";
 
-    userGreeting = document.getElementById("user-greeting");
+    const userGreeting = document.getElementById("user-greeting");
     userGreeting.innerText = `Hello ${data.username}!`
     
-    cartLink = document.getElementById("cart-link");
+    const cartLink = document.getElementById("cart-link");
     cartLink.style.display = "inline";
     
-    myItemsLink = document.getElementById("my-items-link");
+    const myItemsLink = document.getElementById("my-items-link");
     myItemsLink.style.display = "inline";
 
     if (data.isAdmin) {
-      adminLink = document.getElementById("admin-link");
+      const adminLink = document.getElementById("admin-link");
       adminLink.style.display = "inline";
     }
   } else if (res.status === 401) {
@@ -37,7 +37,7 @@ async function loadProducts() {
 
       const container = document.getElementById("product-list");
 
-      fetchedProducts.array.forEach(product => {
+      fetchedProducts.forEach(product => {
       // create card
       const card = document.createElement("div");
       card.className = "product-card";
@@ -78,6 +78,9 @@ async function loadProducts() {
           });
           if (res.ok) {
             alert(`${product.title} added to cart`);
+          } else if (res.status === 409) {
+            const message = await res.text();
+            alert(message);
           } else if (res.status === 401) {
             window.location = "login.html"; // redirect if not logged in
           } else {
