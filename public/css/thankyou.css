@@ -1,0 +1,60 @@
+ main {
+  background: linear-gradient(
+    135deg,
+    var(--bg-main) 0%,
+    var(--bg-footer) 100%
+  );
+  align-items: center;
+}
+
+main {
+  text-align: center;
+  padding: 1rem;
+}
+
+main h1 {
+  font-size: 2.5rem;
+  color: var(--accent);
+  text-shadow: var(--input-glow);
+  margin-bottom: 1rem;
+  margin-top: 0;
+  animation: fadeInUp 1s ease-out;
+}
+
+main h2 {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  animation: fadeInUp 1.3s ease-out;
+}
+
+main a {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+main a:hover {
+  background: var(--accent);
+  color: var(--bg-main);
+}
+
+.animation img {
+  max-width: 225px;
+  height: auto;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

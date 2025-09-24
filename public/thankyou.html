@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Thank You - StarForge</title>
+    <title>Thank you - StarForge</title>
     <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/thankyou.css">
 
     <!-- Applies theme before page load -->
     <script>
@@ -24,8 +25,11 @@
       }
     </script>
   </head>
+
+
   <body>
-    
+    <!-- Redirects user to login if not logged in -->
+    <script src="js/checkProtected.js"></script>
     <header class="main-header">
       <div class="header-left">
         <span alt="StarForge" class="header-logo"></span>
@@ -33,35 +37,40 @@
           <a href="store.html">Store</a>
           <a href="cart.html">Cart</a>
           <!-- Admin link only if admin logged in -->
-          <a href="admin.html" class="admin-link">Admin</a>
+          <a href="admin.html" id="admin-link" style="display: none;">Admin</a>
         </nav>
       </div>
 
       <div class="header-right">
         <!-- Show only if user logged in -->
-        <span class="user-greeting"></span>
+        <nav class="nav">
+          <span id="user-greeting"></span>
 
-        <!-- Either Logout (if logged in) or Login (if not) -->
-        <a href="myitems.html">My Items</a>
-        <a href="logout.html" class="btn-logout"></a>
+          <!-- Either Logout (if logged in) or Login (if not) -->
+          <a href="myitems.html">My Items</a>
+          <a href="/logout" class="btn-logout">Logout</a>
 
-        <!-- Theme selector -->
-        <select id="theme-select">
-          <option value="light">☀️ Light</option>
-          <option value="dark">🌙 Dark</option>
-          <option value="system">💻 System</option>
-        </select>
-        <script src="js/theme.js"></script>
+          <!-- Theme selector -->
+          <select id="theme-select">
+            <option value="light">☀️ Light</option>
+            <option value="dark">🌙 Dark</option>
+            <option value="system">💻 System</option>
+          </select>
+          <script src="js/theme.js"></script>
+        </nav>
       </div>
-    </header>
-    
+    </header>    
+
 
     <main>
-    <h1>Thank You!</h1>
-    <p>Your payment was successful. Safe travels with your new spacecraft parts!</p>
-    <a href="index.html">Return to Store</a>
+      <div class="animation">
+        <img src="img/success_animation.gif" alt="Success">
+      </div>
+      <h1>Thank You!</h1>
+      <h2>Your payment was successful. Safe travels with your new spacecraft parts!</h2>
+      <a href="store.html">Return to Store</a><br>
+      <a href="myitems.html">Watch your item</a>
     </main>
-
 
     <footer>
     <p>
