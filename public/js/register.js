@@ -44,7 +44,7 @@ form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (password_match) {
         const data = new FormData(e.target);
-        const username = data.get("username").toLowerCase();
+        const username = data.get("username");
         const password = data.get("password");
         const vessel = data.get("vessel");
         const phone = data.get("phone");

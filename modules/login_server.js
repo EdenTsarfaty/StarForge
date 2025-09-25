@@ -6,7 +6,12 @@ const router = express.Router();
 
 router.post('/login', async (req, res) => {
   const { username, password, remember } = req.body;
-  const user = users[username];
+
+  // find matching username ignoring case
+  const userKey = Object.keys(users).find(key => key.toLowerCase() === username.toLowerCase());
+
+  const user = userKey ? users[userKey] : null;
+
   if (!user) {
     recordActivity(new Date().toISOString(), username, "Bad Login (username)");
     return res.status(401).send("Invalid credentials");
