@@ -27,6 +27,8 @@
   </head>
 
   <body>
+    <!-- Redirects user to store if not logged in or not admin -->
+    <script src="js/checkProtected.js"></script>
     <header>
       <div class="header-left">
         <span alt="StarForge" class="header-logo"></span>
@@ -66,34 +68,39 @@
           <table>
             <thead>
               <tr>
-                <th>Date/Time (ECT)</th><th>Username</th><th>Activity</th>
+                <th>Date/Time (EST)</th><th>Username</th><th>Activity</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>20/09/2025 12:09</td><td>eden3319</td><td>Login</td>
-              </tr>
-              <tr>
-                <td>20/09/2025 13:11</td><td>iluxa13</td><td>Purchase</td>
-              </tr>
+            <tbody id="activity-list">
             </tbody>
           </table>
         </div>
       </div>
-      <script src="js/admin.js"></script>
-      <p>ECT - Earth Central Time</p>
+      <p>EST - Earth Standard Time</p>
 
-      <div>
-        <h2>Manage Products</h2>
-        <form method="POST" action="/admin/add-product">
-          <label>Title: <input type="text" name="title"></label><br>
-          <label for="description">Description: </label>
-          <textarea id="description" name="description" rows="4" cols="40"></textarea><br>
-          <label>Cost: <input type="number" name="cost"></label><br>
-          <label>Image URL: <input type="url" name="image"></label><br>
-          <button type="submit">Add Product</button>
+      <h2>Manage Products</h2>
+      <div class="manage-products">
+        <form id="product-form">
+          <label>Title: <br><input type="text" id="prod-title" name="title"></label>
+          <button type="button" id="prod-srch-btn">Get</button>
+          <button type="button" id="cancel-srch" hidden>Cancel</button>
+          <span id="prod-srch-err" style="color:red;" hidden>Product not found</span><br>
+
+          <label for="description">Description: <br></label>
+          <textarea id="prod-desc" name="description" rows="4" cols="40"></textarea><br>
+
+          <label>Cost: <br><input type="number" id="prod-cost" name="cost"></label><br>
+          <label>Image URL: <br><input type="url" id="prod-img-url" name="image"></label>
+          <span id="prod-preview-err" style="color:red;" hidden>Image could not be parsed</span><br>
+          <button type="button" id="prod-add">Add Product</button>
+          <button type="button" id="prod-remove" hidden>Remove Product</button>
         </form>
+        
+        <div class="preview">
+          <img src="svg/image-placeholder.svg" alt="Preview">
+        </div>
       </div>
+      <script src="js/admin.js"></script>
     </main>
 
     <footer>

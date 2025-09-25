@@ -26,8 +26,6 @@ tfoot td{
 
 td img {
   width: 10rem;
-  border: 1px solid var(--accent);
-  border-radius: 10px;
 }
 
 tbody tr {

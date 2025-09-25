@@ -4,7 +4,7 @@ import { logPurchase, recordActivity } from "../persist_module.js";
 
 const router = express.Router();
 
-router.post("/payment", checkAuth);
+router.get("/payment", checkAuth);
 
 router.post("/pay", checkAuth, (req, res) => {
     const username = req.session.user;

@@ -4,6 +4,8 @@ import { carts, products, updateCart, recordActivity } from "../persist_module.j
 
 const router = express.Router();
 
+router.get('/cart', checkAuth);
+
 router.post('/cart/add', checkAuth, (req, res) => {
   const username = req.session.user;
   const productId = req.body.productId;

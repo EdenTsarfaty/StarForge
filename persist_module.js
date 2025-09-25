@@ -70,6 +70,11 @@ async function addProduct(title, description, price, img_url) {
     await saveProducts();
 }
 
+async function removeProduct(id) {
+    delete products[id];
+    await saveProducts();
+}
+
 async function saveProducts () {
     try {
         await fs.writeFile(join(dataDir, "products.json"), JSON.stringify(products, null, 2), "utf-8");
@@ -145,5 +150,5 @@ async function saveAll () {
 }
 
 // Exports
-export { loadAll, addUser, addProduct, updateCart, logPurchase, recordActivity, saveAll,
+export { loadAll, addUser, addProduct, removeProduct, updateCart, logPurchase, recordActivity, saveAll,
     users, products, carts, purchases, activityLog };

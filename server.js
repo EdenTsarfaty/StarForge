@@ -8,6 +8,7 @@ import checkSession from "./modules/checkAuth.js";
 import storeRoutes from "./modules/store_server.js";
 import cartRoutes from "./modules/cart_server.js";
 import paymentRoutes from "./modules/payment_server.js";
+import adminRoutes from "./modules/admin_server.js";
 
 
 const app = express();
@@ -32,6 +33,7 @@ app.use('/', checkSession);
 app.use('/', storeRoutes);
 app.use('/', cartRoutes);
 app.use('/', paymentRoutes);
+app.use('/', adminRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
