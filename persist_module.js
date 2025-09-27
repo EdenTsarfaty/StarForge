@@ -78,7 +78,7 @@ async function addProduct(title, description, price, img_url) {
 }
 
 async function removeProduct(productId) {
-    delete products[id];
+    delete products[productId];
 
     // Deletes the item from every user's cart to avoid issues while purchasing
     Object.keys(carts).forEach(username => {
