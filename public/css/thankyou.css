@@ -46,6 +46,7 @@ main a:hover {
 .animation img {
   max-width: 225px;
   height: auto;
+  border: none;
 }
 
 @keyframes fadeInUp {

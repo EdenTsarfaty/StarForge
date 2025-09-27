@@ -51,7 +51,7 @@ paymentForm.addEventListener("submit", async (e) => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 // sent but disregarded by server - fake payment
-                body: JSON.stringify({ method, cc_number, expiry_month, expiry_year, name, items: cart.items}),
+                body: JSON.stringify({ method, cc_number, expiry_month, expiry_year, name, items: cart.items, cost: cart.amount}),
             });
             if (res.ok) {
                 window.location.href = "thankyou.html";

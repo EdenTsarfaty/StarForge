@@ -1,6 +1,6 @@
 import express from "express";
 import { checkAuth } from "./checkAuth.js";
-import { logPurchase, recordActivity } from "../persist_module.js";
+import { checkout, recordActivity } from "../persist_module.js";
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.post("/pay", checkAuth, (req, res) => {
     const username = req.session.user;
     try {
         if (req.body.method === "credits") {}
-        logPurchase(username, req.body.items, new Date().toISOString());
+        checkout(username, req.body.items, req.body.cost);
         recordActivity((new Date()).toISOString(), username, "Purchase");
         res.send("Payment successful");
     } catch (err) {
