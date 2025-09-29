@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Checkout - StarForge</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/cargo.css">
+
+    <!-- Applies theme before page load -->
+    <script>
+      switch (localStorage.getItem("theme")) {
+        case "dark": {
+            document.documentElement.classList.add("dark");
+            break;
+        }
+
+        case "light": {
+            document.documentElement.classList.add("light");
+            break;
+        }
+
+        default: {
+            document.documentElement.classList.add("system");
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <!-- Redirects user to login if not logged in -->
+    <script src="js/checkProtected.js"></script>
+    <header class="main-header">
+      <div class="header-left">
+        <span alt="StarForge" class="header-logo"></span>
+        <nav class="nav">
+          <a href="store.html">Store</a>
+          <a href="cart.html">Cart</a>
+          <!-- Admin link only if admin logged in -->
+          <a href="admin.html" id="admin-link" style="display: none;">Admin</a>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <!-- Show only if user logged in -->
+        <nav class="nav">
+          <span id="user-greeting"></span>
+
+          <!-- Either Logout (if logged in) or Login (if not) -->
+          <a href="myitems.html">My Items</a>
+          <a href="/logout" class="btn-logout">Logout</a>
+
+          <!-- Theme selector -->
+          <select id="theme-select">
+            <option value="light">☀️ Light</option>
+            <option value="dark">🌙 Dark</option>
+            <option value="system">💻 System</option>
+          </select>
+          <script src="js/theme.js"></script>
+        </nav>
+      </div>
+    </header>
+
+    
+    <main>
+      <div class="cargo-header">
+        <h1>Cargo Bay</h1>
+        <button id="unload-btn">Unload Cargo</button>
+      </div>
+      <h2 id="warning-no-items" style="display: none;">Cargo manifest is empty.</h2>
+      <div id="cargo-grid">
+        <!-- Loot cards will be appended here -->
+      </div>
+      <div class="cargo-footer">
+        <button id="sell-all-btn" style="display: none;">Sell All</button>
+      </div>
+      <script src="js/cargo.js"></script>
+    </main>
+
+    <footer>
+      <p>
+        <a href="readme.html">Readme</a> | 
+        <a href="llm.html">LLM</a>
+      </p>
+    </footer>
+  </body>
+</html>

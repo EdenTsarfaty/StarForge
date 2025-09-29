@@ -10,6 +10,7 @@ import cartRoutes from "./modules/cart_server.js";
 import paymentRoutes from "./modules/payment_server.js";
 import adminRoutes from "./modules/admin_server.js";
 import myitemsRoutes from "./modules/myitems_server.js";
+import cargoRoutes from "./modules/cargo_server.js";
 
 
 const app = express();
@@ -36,6 +37,7 @@ app.use('/', cartRoutes);
 app.use('/', paymentRoutes);
 app.use('/', adminRoutes);
 app.use('/', myitemsRoutes);
+app.use('/', cargoRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
