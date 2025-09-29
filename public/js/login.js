@@ -17,6 +17,9 @@ toggle_pass_visibility.addEventListener("click", () => {
     }
 });
 
+const params = new URLSearchParams(window.location.search);
+const next = params.get("next") || "/store.html";
+
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -32,7 +35,7 @@ form.addEventListener("submit", async (e) => {
     });
 
     if (res.ok) {
-        window.location.href = "/store.html";
+        window.location.href = next;
     } else {
         error = document.getElementById("err-msg");
         const msg = await res.text();
