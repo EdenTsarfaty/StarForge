@@ -8,14 +8,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const dataDir = join(__dirname, "data");
 
-
-// Shared module-level variables
-let users = {};
-let products = [];
-let carts = {};
-let purchases = {};
-let activityLog = [];
-
 // Helper: read a file safely with fallback
 async function readJSON(filename, fallback) {
   try {
@@ -31,19 +23,40 @@ async function readJSON(filename, fallback) {
   }
 }
 
+// Shared module-level variables
+let users = {};
+let products = [];
+let carts = {};
+let purchases = {};
+let activityLog = [];
+let cargoItems = {};
+let cargo = {};
+
+async function loadUsers() { users = await readJSON("users.json", {}); }
+async function loadProducts() { products = await readJSON("products.json", []); }
+async function loadCarts() { carts = await readJSON("carts.json", {}); }
+async function loadPurchases() { purchases = await readJSON("purchases.json", {}); }
+async function loadActivityLog() { activityLog = await readJSON("activity_log.json", []); }
+async function loadCargoItems() { cargoItems = await readJSON("cargo_items.json", {}); }
+async function loadCargo() { cargo = await readJSON("cargo_users.json", {}); }
+
 // Load all JSON files into memory
 async function loadAll() {
-  users = await readJSON("users.json", {});
-  products = await readJSON("products.json", []);
-  carts = await readJSON("carts.json", {});
-  purchases = await readJSON("purchases.json", {});
-  activityLog = await readJSON("activity_log.json", []);
+    await Promise.all([
+    loadUsers(),
+    loadProducts(),
+    loadCarts(),
+    loadPurchases(),
+    loadActivityLog(),
+    loadCargoItems(),
+    loadCargo()
+    ]);
 }
 
 async function addUser(username, password, vessel, phone, dateOfBirth, email) {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        users[username] = {"password": hashedPassword, "vessel": vessel, "phone": phone, "DoB": dateOfBirth, "email": email};
+        users[username] = {password: hashedPassword, vessel, phone, "DoB": dateOfBirth, email, credits: 0, isAdmin: false};
         await saveUsers();
     } catch (err) {
         console.error("Error adding user:", err);
@@ -173,6 +186,47 @@ async function saveActivities () {
     }
 }
 
+async function sellCargoItem (username, itemId) {
+    const userCargo = cargo[username].items;
+    const quantity = userCargo[itemId];
+    if (quantity) {
+        delete userCargo[itemId];
+        const price = cargoItems[itemId].price;
+        users[username].credits += price * quantity;
+        await saveCargo();
+        await saveUsers();
+    }
+}
+
+async function sellCargoAll (username, amount) {
+    try {
+        if (!cargo[username]) {
+            cargo[username] = { items: {} };
+        }
+
+        cargo[username].items = {};
+
+        users[username].credits = (users[username].credits || 0) + amount;
+
+        await saveCargo();
+        await saveUsers();
+
+    } catch (err) {
+        console.error("sellCargoAll error:", err);
+        throw err;
+    }
+}
+
+async function saveCargo () {
+    try {
+        await fs.writeFile(join(dataDir, "cargo_users.json"), JSON.stringify(cargo, null, 2), "utf-8");
+    }
+    catch(err) {
+        console.log("Error saving cargo_users.json:", err);
+        throw err;
+    }
+}
+
 async function saveAll () {
     await Promise.all([
         saveUsers(),
@@ -184,5 +238,8 @@ async function saveAll () {
 }
 
 // Exports
-export { loadAll, addUser, addProduct, removeProduct, updateCart, checkout, recordActivity, saveAll,
-    users, products, carts, purchases, activityLog };
+export { loadAll, addUser, addProduct, removeProduct, 
+    updateCart, checkout, recordActivity, saveAll,
+    sellCargoItem, sellCargoAll, saveCargo,
+    users, products, carts, purchases, activityLog, 
+    cargoItems, cargo };
