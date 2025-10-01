@@ -31,6 +31,7 @@ let purchases = {};
 let activityLog = [];
 let cargoItems = {};
 let cargo = {};
+let ships = {};
 
 async function loadUsers() { users = await readJSON("users.json", {}); }
 async function loadProducts() { products = await readJSON("products.json", []); }
@@ -39,6 +40,7 @@ async function loadPurchases() { purchases = await readJSON("purchases.json", {}
 async function loadActivityLog() { activityLog = await readJSON("activity_log.json", []); }
 async function loadCargoItems() { cargoItems = await readJSON("cargo_items.json", {}); }
 async function loadCargo() { cargo = await readJSON("cargo_users.json", {}); }
+async function loadShips() { ships = await readJSON("ships.json", {}); }
 
 // Load all JSON files into memory
 async function loadAll() {
@@ -49,7 +51,8 @@ async function loadAll() {
     loadPurchases(),
     loadActivityLog(),
     loadCargoItems(),
-    loadCargo()
+    loadCargo(),
+    loadShips()
     ]);
 }
 
@@ -227,19 +230,76 @@ async function saveCargo () {
     }
 }
 
+async function repairPart (username, part) {
+    try {
+        const ship = ships[username];
+        const shipPart = ship[part];
+        shipPart.repaired = new Date().toISOString().slice(0, 10);
+        await saveShips();
+    } catch (err) {
+        console.error(`Error repairing ${part} for ${username}:`, err);
+        throw err;
+    }
+
+}
+
+async function firstDock (username, ship) {
+    try {
+        ships[username] = ship;
+        await saveShips();
+    } catch (err) {
+        console.error(`Error adding ship for ${user}:`, err);
+        throw err;
+    }
+}
+
+async function upgradePart (username, part) {
+    try {
+        const ship = ships[username];
+        const shipPart = ship[part];
+        shipPart.level += 1;
+        await saveShips();
+    } catch (err) {
+        console.error(`Error repairing ${part} for ${username}:`, err);
+        throw err;
+    }
+}
+
+async function saveShips () { 
+    try {
+        await fs.writeFile(join(dataDir, "ships.json"), JSON.stringify(ships, null, 2), "utf-8");
+    }
+    catch(err) {
+        console.log("Error saving ships.json:", err);
+        throw err;
+    }
+}
+
+async function payWithCredits (username, cost) {
+    if (!users[username] || users[username].credits < cost) {
+        return false;
+    }
+    users[username].credits -= cost;
+    await saveUsers();
+    return true;
+}
+
 async function saveAll () {
     await Promise.all([
         saveUsers(),
         saveProducts(),
         saveCarts(),
         savePurchases(),
-        saveActivities()
+        saveActivities(),
+        saveCargo(),
+        saveShips()
     ]);
 }
 
 // Exports
 export { loadAll, addUser, addProduct, removeProduct, 
     updateCart, checkout, recordActivity, saveAll,
-    sellCargoItem, sellCargoAll, saveCargo,
+    sellCargoItem, sellCargoAll, saveCargo, firstDock,
+    repairPart, upgradePart, payWithCredits,
     users, products, carts, purchases, activityLog, 
-    cargoItems, cargo };
+    cargoItems, cargo, ships };

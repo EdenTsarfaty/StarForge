@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>My Items - StarForge</title>
+    <title>Ship Hangar - StarForge</title>
     <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/myitems.css">
+    <link rel="stylesheet" href="css/shiphangar.css">
 
     <!-- Applies theme before page load -->
     <script>
@@ -62,21 +62,53 @@
 
     
     <main>
-      <h1>My Purchased Items</h1>
-      <h2 id="warning-no-items" style="display: none;">You have not purchased anything yet.</h2>
-      <div class="tbl-wrapper">
-        <table>
-            <colgroup>
-              <col style="width: 25%">
-              <col style="width: 50%">
-              <col style="width: 25%">
-            </colgroup>
-          <tbody id="purchased-items">
-          </tbody>
-        </table>
+      <h1>Ship Hangar</h1>
+      <div class="ship-container">
+        <img src="img/ship_hangar.png" id="ship-preview">
+        <div class="overlay hull v1">
+          <div class="stats">
+            <h2>Hull</h2>
+            <h3></h3>
+          </div>
+          <div class="action">
+            <button class="repair-btn" data-part="hull"></button>
+            <button class="upgrade-btn" data-part="hull"></button>
+          </div>
+        </div>
+        <div class="overlay weapons v1">
+          <div class="stats">
+            <h2>Weapons Systems</h2>
+            <h3></h3>
+          </div>
+          <button class="repair-btn" data-part="hull"></button>
+          <button class="upgrade-btn" data-part="hull"></button>
+        </div>
+        <div class="overlay cloaking v2">
+          <div class="stats">
+            <h2>Cloaking Device</h2>
+            <h3></h3>
+          </div>
+          <button class="repair-btn" data-part="hull"></button>
+          <button class="upgrade-btn" data-part="hull"></button>
+        </div>
+        <div class="overlay landing v3">
+          <div class="stats">
+            <h2>Landing Gear</h2>
+            <h3></h3>
+          </div>
+          <button class="repair-btn" data-part="hull"></button>
+          <button class="upgrade-btn" data-part="hull"></button>
+        </div>
+        <div class="overlay engine v1">
+          <div class="stats">
+            <h2>Engine</h2>
+            <h3></h3>
+          </div>
+          <button class="repair-btn" data-part="hull"></button>
+          <button class="upgrade-btn" data-part="hull"></button>
+        </div>
       </div>
-      <a href="checkout.html" id="checkout-btn" style="display: none;"><button>Proceed to Checkout</button></a>
-      <script src="js/myitems.js"></script>
+      <script src="js/shiphangar.js"></script>
     </main>
 
     <footer>

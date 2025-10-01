@@ -1,0 +1,91 @@
+body {
+  min-width: 1000px;
+}
+
+.ship-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+}
+
+h1 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#ship-preview {
+    max-width: 85%;
+    height: auto;
+    border: none;
+}
+
+.overlay {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    align-items: center;
+    color: var(--text-primary);
+    background-color: color-mix(in srgb, var(--bg-main) 80%, transparent);
+    padding: 0.8rem;
+    border-radius: 1rem;
+}
+
+.overlay.v1 { border: 2px solid var(--accent-hover); }
+
+.overlay.v2 { border: 2px solid #15b5ff; }
+
+.overlay.v3 { border: 2px solid #eb9411; }
+
+.overlay h2 {
+    font-size: clamp(0.8rem, 1.6vw, 1.1rem);
+    margin: 0.2rem 0 0.2rem 0;
+}
+
+.overlay h3 {
+    font-size: clamp(0.7rem, 1.2vw, 1rem);
+    margin: 0.2rem 0 0.2rem 0;
+}
+
+.overlay button {
+    font-size: clamp(0.7rem, 1.6vw, 1rem);
+    border-radius: 12px;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-right: 1rem;
+}
+
+.action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.overlay.hull {
+    top: 32%;
+    right: 51%;
+}
+
+.overlay.weapons {
+    top: 10%;
+    right: 8%
+}
+
+.overlay.cloaking {
+    bottom: 29%;
+    right: 3%
+}
+
+.overlay.landing {
+    bottom: 17%;
+    right: 50%;
+}
+
+.overlay.engine {
+    top: 30%;
+    left: 8%;
+}

@@ -70,7 +70,7 @@ router.post('/cargo/unload', checkAuth, async (req, res) => {
   }
 
   if (cargo[username].lastUnload === today) {
-    return res.status(429).send("You already unloaded your cargo today.\nCargo Bay serves each user once per day.");
+    return res.status(429).send("You already unloaded your cargo today.\nCargo Bay serves each customer once per day.");
   }
   cargo[username].lastUnload = today;
 
