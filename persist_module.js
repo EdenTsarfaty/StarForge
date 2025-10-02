@@ -32,6 +32,7 @@ let activityLog = [];
 let cargoItems = {};
 let cargo = {};
 let ships = {};
+let auctions = [];
 
 async function loadUsers() { users = await readJSON("users.json", {}); }
 async function loadProducts() { products = await readJSON("products.json", []); }
@@ -41,6 +42,11 @@ async function loadActivityLog() { activityLog = await readJSON("activity_log.js
 async function loadCargoItems() { cargoItems = await readJSON("cargo_items.json", {}); }
 async function loadCargo() { cargo = await readJSON("cargo_users.json", {}); }
 async function loadShips() { ships = await readJSON("ships.json", {}); }
+async function loadAuctions() {
+    auctions = await readJSON("auctions.json", []);
+    const maxId = auctions.length > 0 ? Math.max(...auctions.map(a => a.id)) : 0;
+    nextAuctionId = maxId + 1;
+}
 
 // Load all JSON files into memory
 async function loadAll() {
@@ -52,7 +58,8 @@ async function loadAll() {
     loadActivityLog(),
     loadCargoItems(),
     loadCargo(),
-    loadShips()
+    loadShips(),
+    loadAuctions()
     ]);
 }
 
@@ -284,6 +291,68 @@ async function payWithCredits (username, cost) {
     return true;
 }
 
+async function placeBid (username, auction, amount) {
+    const user = users[username];
+    // First reserve and freeze funds
+    user.credits -= amount;
+
+    // Refund the previous bidder if exists
+    if (auction.currentBidder) {
+        const prevBid = auction.currentBid;
+        const prevUser = users[auction.currentBidder];
+        prevUser.credits += prevBid;
+    }
+
+    // Update metadata
+    auction.currentBid = amount;
+    auction.currentBidder = username;
+    await saveUsers();
+    await saveAuctions();
+}
+
+async function closeAuction (auction) {
+    auction.isOpen = false;
+    if (auction.currentBidder) { // Could be noone placed a bet
+        if (!purchases[auction.currentBidder]) {
+            purchases[auction.currentBidder] = [];
+        }
+
+        purchases[auction.currentBidder].push ({
+            date: new Date().toISOString(),
+            items: [auction.title],
+            cost: auction.currentBid
+        });
+    }
+    
+    await saveAuctions();
+    await savePurchases();
+}
+
+let nextAuctionId;
+async function postAuction(auction) {
+    auctions.push({
+        id: nextAuctionId,
+        title: auction.title,
+        description: auction.description,
+        currentBid: auction.currentBid,
+        currentBidder: null, // No bids yet
+        endTime: auction.endTime,
+        isOpen: true
+    })
+    await saveAuctions();
+    return nextAuctionId++;
+}
+
+async function saveAuctions () {
+    try {
+        await fs.writeFile(join(dataDir, "auctions.json"), JSON.stringify(auctions, null, 2), "utf-8");
+    }
+    catch(err) {
+        console.log("Error saving auctions.json:", err);
+        throw err;
+    }
+}
+
 async function saveAll () {
     await Promise.all([
         saveUsers(),
@@ -292,7 +361,8 @@ async function saveAll () {
         savePurchases(),
         saveActivities(),
         saveCargo(),
-        saveShips()
+        saveShips(),
+        saveAuctions()
     ]);
 }
 
@@ -300,6 +370,6 @@ async function saveAll () {
 export { loadAll, addUser, addProduct, removeProduct, 
     updateCart, checkout, recordActivity, saveAll,
     sellCargoItem, sellCargoAll, saveCargo, firstDock,
-    repairPart, upgradePart, payWithCredits,
-    users, products, carts, purchases, activityLog, 
-    cargoItems, cargo, ships };
+    repairPart, upgradePart, payWithCredits, closeAuction,
+    placeBid, postAuction, users, products, carts, purchases,
+    activityLog, cargoItems, cargo, ships, auctions };
