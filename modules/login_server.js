@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
     recordActivity(new Date().toISOString(), username, "Bad Login (password)");
     return res.status(401).send("Invalid credentials");
   }
-  req.session.user = username;
+  req.session.user = userKey;
   req.session.isAdmin = (user.isAdmin === true);
   if (remember) {
     req.session.cookie.maxAge = 12 * 24 * 60 * 60 * 1000; // 12 days
