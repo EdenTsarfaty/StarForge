@@ -1,0 +1,35 @@
+.registration-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.pass-policy {
+    border-radius: 12px;
+    border: 2px solid var(--accent-hover);
+    background: var(--bg-header);
+    padding: 1.5rem 1.5rem;
+    min-width: 250px;
+    max-width: fit-content;
+    color: var(--text-secondary);
+}
+
+.pass-policy h3 {
+    color: var(--text-primary);
+}
+
+.satisfied {
+    color: rgb(24, 177, 24);
+}
+
+#existing-incorrect {
+  color:rgb(194, 44, 44);
+}
+
+.registration-container a{
+    color: var(--text-primary);
+}
+
+.registration-container a:hover{
+    color: var(--accent-hover);
+}

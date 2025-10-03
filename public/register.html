@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Register - StarForge</title>
     <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/register.css">
 
     <!-- Applies theme before page load -->
     <script>
@@ -47,44 +48,58 @@
     </header>
 
     <main>
-    <h1>Register</h1>
-      <form method="POST" id="register-form" action="/register">
-        <label>Username:* <input type="text" name="username" autocomplete="username" required></label><br>
+      <h1>Register</h1>
+      <div class="registration-container">
+        <div class="registration-input">
+          <form method="POST" id="register-form" action="/register">
+            <label>Username:* <input type="text" name="username" autocomplete="username" required></label><br>
 
-        <label>Password:* 
-          <input type="password" id="password" name="password" required>
+            <label>Password:* 
+              <input type="password" id="password" name="password" required>
 
-            <button type="button" class="icon-btn" id="togglePassword" tabindex="-1">
-              <svg xmlns="http://www.w3.org/2000/svg" id="eye" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-              </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" id="eye-slash" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon" style="display: none;">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-              </svg>
-            </button>
+                <button type="button" class="icon-btn" id="togglePassword" tabindex="-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" id="eye" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" id="eye-slash" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon" style="display: none;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                  </svg>
+                </button>
 
-        </label><br>
+            </label><br>
 
-        <label>Confirm Password:* 
-          <input type="password" id="confirm" name="confirm-password" required>
-        </label><br>
-        <p id="pass-not-match-err" style="color:firebrick; margin-top: 0; margin-bottom: 3px;" hidden>Passwords do not match</p>
+            <label>Confirm Password:* 
+              <input type="password" id="confirm" name="confirm-password" required>
+            </label><br>
+            
+            <label>Vessel Number: <input type="text" name="vessel"></label><br>
 
-        <label>Vessel Number: <input type="text" name="vessel"></label><br>
+            <label>Phone Number:* <input type="tel" name="phone" autocomplete="mobile" placeholder="05x-xxx-xxxx" inputmode="tel" required></label><br>
 
-        <label>Phone Number:* <input type="tel" name="phone" autocomplete="mobile" placeholder="05x-xxx-xxxx" inputmode="tel" required></label><br>
+            <Label>Date of Birth: <input type="date" autocomplete="bday" name="date_of_birth"></label><br>
 
-        <Label>Date of Birth: <input type="date" autocomplete="bday" name="date_of_birth"></label><br>
+            <label>Email:* <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="user@domain.com" required></label><br>
 
-        <label>Email:* <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="user@domain.com" required></label><br>
+            <button type="submit">Register</button>
+          </form>
 
-        <button type="submit">Register</button>
-      </form>
-      <p id="err-msg" style="color:firebrick; margin-top: 0; margin-bottom: 3px;" hidden></p>
+          <p id="err-msg" style="color:firebrick; margin-top: 0; margin-bottom: 3px;" hidden></p>
+
+          <a href="login.html">Existing user?</a>
+        </div>
+        <!-- Password policy -->
+        <div class="pass-policy" id="pass-policy">
+          <h3>Password policy</h3>
+          <p id="lowercase">✓ At least one lowercase letter</p>
+          <p id="uppercase">✓ At least one uppercase letter</p>
+          <p id="number">✓ At least one number</p>
+          <p id="special">✓ At least one special character</p>
+          <p id="length">✓ At least 8 characters</p>
+          <p id="match">✓ Passwords must match</p>
+        </div>
+      </div>
       <script src="js/register.js"></script>
-
-      <a href="login.html">Existing user?</a>
     </main>
 
 

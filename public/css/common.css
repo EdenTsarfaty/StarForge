@@ -170,7 +170,7 @@ header {
 
 nav a {
   text-decoration: none;
-  color: var(--text);
+  color: var(--text-primary);
   padding: 0.25rem 0.5rem;
 }
 

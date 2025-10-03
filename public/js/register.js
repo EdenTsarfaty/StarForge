@@ -2,22 +2,44 @@ const form = document.getElementById("register-form");
 
 const password = document.getElementsByName("password")[0];
 const confirmation = document.getElementsByName("confirm-password")[0];
-const pass_match_err = document.getElementById("pass-not-match-err");
-var password_match = true;
 
-// Checks that the password field and password confirmation fields are the same
-function validatePassword() {
-    if (password.value !== confirmation.value) {
-        pass_match_err.hidden = false;
-        password_match = false;
-    }
-    else {
-        pass_match_err.hidden = true;
-        password_match = true;
-    }
+const passPolicy = document.getElementById("pass-policy");
+const passPolicyLowercase = passPolicy.querySelector("#lowercase");
+const passPolicyUppercase = passPolicy.querySelector("#uppercase");
+const passPolicyNumber = passPolicy.querySelector("#number");
+const passPolicySpecial = passPolicy.querySelector("#special");
+const passPolicyMatch = passPolicy.querySelector("#match");
+const passPolicyLength = passPolicy.querySelector("#length");
+
+// Password policy check
+function checkPasswordPolicy(pass = password.value, confirmPass = confirmation.value) {
+    const rules = {
+        hasUpper: /[A-Z]/.test(pass),
+        hasLower: /[a-z]/.test(pass),
+        hasNumber: /\d/.test(pass),
+        hasSpecial: /[!@#$%^&*]/.test(pass),
+        length: pass.length >= 8,
+        matches: pass === confirmPass
+    };
+
+    rules.hasUpper ? passPolicyUppercase.classList.add("satisfied") : passPolicyUppercase.classList.remove("satisfied");
+    rules.hasLower ? passPolicyLowercase.classList.add("satisfied") : passPolicyLowercase.classList.remove("satisfied");
+    rules.hasNumber ? passPolicyNumber.classList.add("satisfied") : passPolicyNumber.classList.remove("satisfied");
+    rules.hasSpecial ? passPolicySpecial.classList.add("satisfied") : passPolicySpecial.classList.remove("satisfied");
+    rules.length ? passPolicyLength.classList.add("satisfied") : passPolicyLength.classList.remove("satisfied");
+    rules.matches ? passPolicyMatch.classList.add("satisfied") : passPolicyMatch.classList.remove("satisfied");
+
+    return Object.values(rules).every(Boolean);
 }
-password.addEventListener("focusout", validatePassword);
-confirmation.addEventListener("focusout", validatePassword);
+
+password.addEventListener("input", () => {
+    checkPasswordPolicy();
+});
+
+confirmation.addEventListener("input", (e) => {
+    const val = e.target.value;
+    (val === confirmation.value) ? passPolicyMatch.classList.add("satisfied") : passPolicyMatch.classList.remove("satisfied");
+});
 
 
 // Enables the password toggle button
@@ -42,7 +64,7 @@ toggle_pass_visibility.addEventListener("click", () => {
 // Collects all form fields
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (password_match) {
+    if (checkPasswordPolicy()) {
         const data = new FormData(e.target);
         const username = data.get("username");
         const password = data.get("password");
