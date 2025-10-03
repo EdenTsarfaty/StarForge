@@ -22,8 +22,8 @@ confirmation.addEventListener("focusout", validatePassword);
 
 // Enables the password toggle button
 const toggle_pass_visibility = document.getElementById("togglePassword"); 
-const eye_open = document.querySelector(".fa-eye");
-const eye_closed = document.querySelector(".fa-eye-slash");
+const eye_open = document.getElementById("eye");
+const eye_closed = document.getElementById("eye-slash");
 toggle_pass_visibility.addEventListener("click", () => {
     if (password.type === "password") {
         password.type = "text";

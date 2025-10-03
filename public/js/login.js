@@ -2,8 +2,8 @@ const form = document.getElementById("login-form");
 
 const password = document.getElementsByName("password")[0];
 const toggle_pass_visibility = document.getElementById("togglePassword"); 
-const eye_open = document.querySelector(".fa-eye");
-const eye_closed = document.querySelector(".fa-eye-slash");
+const eye_open = document.getElementById("eye");
+const eye_closed = document.getElementById("eye-slash");
 
 toggle_pass_visibility.addEventListener("click", () => {
     if (password.type === "password") {
