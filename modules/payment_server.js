@@ -9,8 +9,11 @@ router.get("/payment", checkAuth);
 router.post("/pay", checkAuth, (req, res) => {
     const username = req.session.user;
     try {
-        if (req.body.method === "credits") {}
-        checkout(username, req.body.items, req.body.cost);
+        const method = req.body.method;
+        if ( !method || (method !== "card" && method !== "credits")) {
+            return res.status(400).send("Method unsupported");
+        }
+        checkout(username, req.body.items, req.body.cost, req.body.method);
         recordActivity((new Date()).toISOString(), username, "Purchase");
         res.send("Payment successful");
     } catch (err) {

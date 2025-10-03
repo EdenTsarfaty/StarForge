@@ -142,7 +142,7 @@ async function saveCarts () {
 }
 
 
-async function checkout (username, selectedIds, cost) {
+async function checkout (username, selectedIds, cost, method) {
     const cartItems = carts[username] || [];
 
     if (selectedIds.length === 0) {
@@ -166,6 +166,11 @@ async function checkout (username, selectedIds, cost) {
 
     // Remaining items in cart - items not selected during checkout
     carts[username] = cartItems.filter(id => !selectedIds.includes(id));
+
+    if (method === "credits") {
+        users[username].credits -= cost;
+        await saveUsers();
+    }
 
     await saveCarts();
     await savePurchases();

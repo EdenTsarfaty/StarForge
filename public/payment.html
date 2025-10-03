@@ -46,7 +46,7 @@
       <div class="header-right">
         <nav class="nav">
         <!-- Show only if user logged in -->
-          <a id="user-greeting" href="profile.html" class="logged-link"><strong>Hello Admin!</strong></a>
+          <a id="user-greeting" href="profile.html" class="logged-link"></a>
           <span alt="credits" id="credits-logo" class="logged-link"></span>
           <span id="credits" class="logged-link"></span>
           <a id="cart-link" href="cart.html" class="logged-link">Cart</a>
@@ -62,7 +62,7 @@
           <option value="system">💻 System</option>
         </select>
         <script src="js/theme.js"></script>
-        <script src="js/navbar.js"></script>
+        <script type="module" src="/js/navbar.js"></script>
       </div>
     </header>
 
@@ -70,11 +70,11 @@
       <h1>Payment</h1>
       <h2 id="total-label">Total to pay:</h2>
       <form id="payment-form">
-        <label for="credits"><strong>Store Credits (WIP)</strong></label>
-        <input id="credits radio" type="radio" name="payment-method" value="credits" checked>
+        <label for="credits"><strong>Store Credits</strong></label>
+        <input id="credits-radio" type="radio" name="payment-method" value="credits" checked>
         
         <div class="credits section">
-          <p>You have 120 credits. This purchase will use them.</p>
+          <p>You have x credits. This purchase will use them.</p>
         </div><br>
 
         
@@ -84,20 +84,20 @@
         <div class="card section">
           <label for="card">Token ID: </label>
           <input type="text" name="card" inputmode="numeric" maxlength="16"
-          placeholder="1234 5678 9101 1112" autocomplete="cc-number" required></input><br>
+          placeholder="1234 5678 9101 1112" autocomplete="cc-number" required disabled></input><br>
 
-          <label>Cycle Code: <input type="text" class="expiry mm" name="expiry-mm" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="cc-exp-month" required>
-          <span>/</span><input type="text" class="expiry yy" name="expiry-yy" placeholder="YY" maxlength="2" inputmode="numeric" autocomplete="cc-exp-year" required></label><br>
+          <label>Cycle Code: <input type="text" class="expiry mm" name="expiry-mm" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="cc-exp-month" required disabled>
+          <span>/</span><input type="text" class="expiry yy" name="expiry-yy" placeholder="YY" maxlength="2" inputmode="numeric" autocomplete="cc-exp-year" required disabled></label><br>
 
           <label for="cvv">Auth Key: </label>
-          <input type="text" class="cvv" name="cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc" required></label><br>
+          <input type="text" class="cvv" name="cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc" required disabled></label><br>
 
           <label for="name">Pilot Registry Name: </label>
-          <input type="text" name="name" autocomplete="cc-name" required><br>
+          <input type="text" name="name" autocomplete="cc-name" required disabled><br>
         </div>
         <button type="submit">Pay</button>
       </form>
-      <script src="js/payment.js"></script>
+      <script type="module" src="/js/payment.js"></script>
     </main>
 
     <footer>

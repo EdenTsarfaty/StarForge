@@ -1,8 +1,14 @@
-cart = JSON.parse(sessionStorage.getItem("checkedOut"));
+import { availableCredits, navbarReady } from "/js/navbar.js";
+
+const cart = JSON.parse(sessionStorage.getItem("checkedOut"));
 
 async function updatePayment() {
-    totalPayment = document.getElementById("total-label");
+    const totalPayment = document.getElementById("total-label");
     totalPayment.textContent = `Total to pay: ${cart.amount} ⚛`;
+
+    await navbarReady;
+    const creditPayment = document.querySelector(".credits.section p");
+    creditPayment.textContent = `You have ${availableCredits} credits. This purchase will use them.`
 }
 
 const radios = document.querySelectorAll("input[name=payment-method]");
@@ -11,15 +17,15 @@ const cardInputs = document.querySelectorAll(".section input");
 radios.forEach(radio => {
     radio.addEventListener("change", () => {
         if (radio.value === "credits" && radio.checked) {
-        cardInputs.forEach(inp => inp.disabled = true);
+        cardInputs.forEach(input => input.disabled = true);
         }
         if (radio.value === "card" && radio.checked) {
-        cardInputs.forEach(inp => inp.disabled = false);
+        cardInputs.forEach(input => input.disabled = false);
         }
     });
 });
 
-paymentForm = document.getElementById("payment-form");
+const paymentForm = document.getElementById("payment-form");
 
 // Collects all form fields
 paymentForm.addEventListener("submit", async (e) => {
@@ -49,11 +55,24 @@ paymentForm.addEventListener("submit", async (e) => {
             console.error(err);
         }
     }
-
-
     if (method === "credits") {
-        alert("Supported soon!");
+        try {
+            const res = await fetch("/pay", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ method, items: cart.items, cost: cart.amount }),
+            });
+            if (res.ok) {
+                window.location.href = "thankyou.html";
+            } else {
+                const msg = await res.text();
+                console.error(msg);
+                alert("Payment unsuccessful");
+            }
+        } catch (err) {
+            console.error(err);
+        }
     }
 });
 
-updatePayment();
+await updatePayment();
