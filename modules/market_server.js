@@ -1,6 +1,6 @@
 import express from "express";
 import { checkAuth, checkAdmin } from "./checkAuth.js";
-import { users, auctions, closeAuction, placeBid, postAuction } from "../persist_module.js";
+import { users, auctions, closeAuction, placeBid, postAuction, recordActivity } from "../persist_module.js";
 
 const router = express.Router();
 
@@ -95,6 +95,7 @@ router.post('/auction/close', checkAdmin, async (req, res) => {
 
 router.post('/auction/post', checkAuth, async (req, res) => {
   try {
+    const username = req.session.user;
     const { title, description, endTime } = req.body;
     const startingPrice = Number(req.body.currentBid);
     const auction = { title, description, currentBid: startingPrice, endTime };
@@ -113,6 +114,7 @@ router.post('/auction/post', checkAuth, async (req, res) => {
     }
 
     const auctionId = await postAuction(auction);
+    await recordActivity(new Date().toISOString(), username, "Posted auction");
 
     return res.status(201).json({ id: auctionId });
 
