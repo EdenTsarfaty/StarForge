@@ -1,20 +1,5 @@
 cart = JSON.parse(sessionStorage.getItem("checkedOut"));
 
-async function updateNavbar() {
-  const res = await fetch("/session");
-  if (res.ok) {
-    const data = await res.json();
-
-    const userGreeting = document.getElementById("user-greeting");
-    userGreeting.innerText = `Hello ${data.username}!`
-
-    if (data.isAdmin) {
-      const adminLink = document.getElementById("admin-link");
-      adminLink.style.display = "inline";
-    }
-  }
-}
-
 async function updatePayment() {
     totalPayment = document.getElementById("total-label");
     totalPayment.textContent = `Total to pay: ${cart.amount} ⚛`;
@@ -71,5 +56,4 @@ paymentForm.addEventListener("submit", async (e) => {
     }
 });
 
-updateNavbar();
 updatePayment();

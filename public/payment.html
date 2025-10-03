@@ -28,36 +28,41 @@
 
 
   <body>
-    <!-- Redirects user to login if not logged in -->
+    <!-- Redirects user to store if not logged in or not admin -->
     <script src="js/checkProtected.js"></script>
-    <header class="main-header">
+    <header>
       <div class="header-left">
-        <span alt="StarForge" class="header-logo"></span>
+        <span alt="StarForge" id="header-logo"></span>
         <nav class="nav">
           <a href="store.html">Store</a>
-          <a href="cart.html">Cart</a>
+          <a href="cargo.html" class="logged-link">Cargo</a>
+          <a href="shiphangar.html" class="logged-link">Ship Hangar</a>
+          <a href="market.html" class="logged-link">Market</a>
           <!-- Admin link only if admin logged in -->
-          <a href="admin.html" id="admin-link" style="display: none;">Admin</a>
+          <a href="admin.html" id="admin-link">Admin</a>
         </nav>
       </div>
 
       <div class="header-right">
-        <!-- Show only if user logged in -->
         <nav class="nav">
-          <span id="user-greeting"></span>
-
+        <!-- Show only if user logged in -->
+          <a id="user-greeting" href="profile.html" class="logged-link"><strong>Hello Admin!</strong></a>
+          <span alt="credits" id="credits-logo" class="logged-link"></span>
+          <span id="credits" class="logged-link"></span>
+          <a id="cart-link" href="cart.html" class="logged-link">Cart</a>
+          <a id="myitems-link" href="myitems.html" class="logged-link">My Items</a>
           <!-- Either Logout (if logged in) or Login (if not) -->
-          <a href="myitems.html">My Items</a>
-          <a href="/logout" class="btn-logout">Logout</a>
-
-          <!-- Theme selector -->
-          <select id="theme-select">
-            <option value="light">☀️ Light</option>
-            <option value="dark">🌙 Dark</option>
-            <option value="system">💻 System</option>
-          </select>
-          <script src="js/theme.js"></script>
+          <a href="logout.html" id="btn-log"></a>
         </nav>
+
+        <!-- Theme selector -->
+        <select id="theme-select">
+          <option value="light">☀️ Light</option>
+          <option value="dark">🌙 Dark</option>
+          <option value="system">💻 System</option>
+        </select>
+        <script src="js/theme.js"></script>
+        <script src="js/navbar.js"></script>
       </div>
     </header>
 

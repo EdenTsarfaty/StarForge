@@ -1,34 +1,6 @@
 const searchbox = document.getElementById("search");
 let products;
 
-async function updateNavbar() {
-  const res = await fetch("/session");
-  const logButton = document.getElementById("btn-log");
-  if (res.ok) {
-    const data = await res.json();
-
-    logButton.innerText = "Logout";
-    logButton.href = "/logout";
-
-    const userGreeting = document.getElementById("user-greeting");
-    userGreeting.innerText = `Hello ${data.username}!`
-    
-    const cartLink = document.getElementById("cart-link");
-    cartLink.style.display = "inline";
-    
-    const myItemsLink = document.getElementById("my-items-link");
-    myItemsLink.style.display = "inline";
-
-    if (data.isAdmin) {
-      const adminLink = document.getElementById("admin-link");
-      adminLink.style.display = "inline";
-    }
-  } else if (res.status === 401) {
-      logButton.innerText = "Login";
-      logButton.href = "/login.html";
-  }
-}
-
 async function loadProducts() {
   try {
     const res = await fetch('/products');
@@ -101,8 +73,6 @@ async function loadProducts() {
   }
   products = document.querySelectorAll(".product-card");
 }
-
-updateNavbar();
 
 loadProducts();
 

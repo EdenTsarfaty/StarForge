@@ -2,21 +2,6 @@ let checkedOut = { amount: 0, items: [] };
 const container = document.querySelector(".tbl-wrapper");
 const paymentButton = document.getElementById("payment-btn");
 
-async function updateNavbar() {
-  const res = await fetch("/session");
-  if (res.ok) {
-    const data = await res.json();
-
-    const userGreeting = document.getElementById("user-greeting");
-    userGreeting.innerText = `Hello ${data.username}!`
-
-    if (data.isAdmin) {
-      const adminLink = document.getElementById("admin-link");
-      adminLink.style.display = "inline";
-    }
-  }
-}
-
 function noItemsInCart() {
     container.remove(); // Nukes all children of main div
 
@@ -112,7 +97,5 @@ async function loadCart() {
         console.error("Error loading products:", err);
     }
 }
-
-updateNavbar();
 
 loadCart();

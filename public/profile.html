@@ -31,22 +31,28 @@
     <script src="js/checkProtected.js"></script>
     <header>
       <div class="header-left">
-        <span alt="StarForge" class="header-logo"></span>
+        <span alt="StarForge" id="header-logo"></span>
         <nav class="nav">
           <a href="store.html">Store</a>
-          <a href="cart.html">Cart</a>
+          <a href="cargo.html" class="logged-link">Cargo</a>
+          <a href="shiphangar.html" class="logged-link">Ship Hangar</a>
+          <a href="market.html" class="logged-link">Market</a>
           <!-- Admin link only if admin logged in -->
-          <a href="admin.html" class="admin-link">Admin</a>
+          <a href="admin.html" id="admin-link">Admin</a>
         </nav>
       </div>
 
       <div class="header-right">
+        <nav class="nav">
         <!-- Show only if user logged in -->
-        <span class="user-greeting"></span>
-
-        <!-- Either Logout (if logged in) or Login (if not) -->
-        <a href="myitems.html"></a>
-        <a href="logout.html" class="btn-logout"></a>
+          <a id="user-greeting" href="profile.html" class="logged-link"><strong>Hello Admin!</strong></a>
+          <span alt="credits" id="credits-logo" class="logged-link"></span>
+          <span id="credits" class="logged-link"></span>
+          <a id="cart-link" href="cart.html" class="logged-link">Cart</a>
+          <a id="myitems-link" href="myitems.html" class="logged-link">My Items</a>
+          <!-- Either Logout (if logged in) or Login (if not) -->
+          <a href="logout.html" id="btn-log"></a>
+        </nav>
 
         <!-- Theme selector -->
         <select id="theme-select">
@@ -55,6 +61,7 @@
           <option value="system">💻 System</option>
         </select>
         <script src="js/theme.js"></script>
+        <script src="js/navbar.js"></script>
       </div>
     </header>
     

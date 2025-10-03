@@ -62,6 +62,7 @@ body {
   --accent: #00838f;
   --accent-hover: #006064;
   --logo: url("../svg/logo-dark.svg");
+  --credits-logo: url("../svg/credits-dark.svg");
 }
 
 /* Dark theme */
@@ -80,6 +81,7 @@ body {
   --accent: #4dd0e1;
   --accent-hover: #26a69a;
   --logo: url("../svg/logo-light.svg");
+  --credits-logo: url("../svg/credits-light.svg");
 }
 
 /* System theme (default to light) */
@@ -98,6 +100,7 @@ body {
   --accent: #00838f;
   --accent-hover: #006064;
   --logo: url("../svg/logo-dark.svg");
+  --credits-logo: url("../svg/credits-dark.svg");
 }
 
 /* Override system if OS is dark */
@@ -116,6 +119,7 @@ body {
   --accent: #4dd0e1;
   --accent-hover: #26a69a;
   --logo: url("../svg/logo-light.svg");
+  --credits-logo: url("../svg/credits-light.svg");
   }
 }
 
@@ -144,20 +148,33 @@ header {
   gap: 1rem;
 }
 
-.header-logo {
+#header-logo {
   background: var(--logo) no-repeat center;
   background-size: contain;
   height: 4rem;
   width: 4rem;
 }
 
-.nav a {
+#credits-logo {
+  background: var(--credits-logo) no-repeat center;
+  background-size: contain;
+  display: none;
+  margin-right: -0.25rem;
+  height: 1.2rem;
+  width: 1.2rem;
+}
+
+.logged-link,#admin-link {
+  display: none;
+}
+
+nav a {
   text-decoration: none;
   color: var(--text);
   padding: 0.25rem 0.5rem;
 }
 
-.nav a:hover {
+nav a:hover {
   color: var(--accent-hover);
 }
 

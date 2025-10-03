@@ -1,5 +1,3 @@
-// const e = require("express");
-
 const selector = document.getElementById("theme-select")
 const presetTheme = localStorage.getItem("theme");
 

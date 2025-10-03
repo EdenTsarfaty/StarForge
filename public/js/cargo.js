@@ -1,20 +1,5 @@
 let numberOfItems = 0;
 
-async function updateNavbar() {
-  const res = await fetch("/session");
-  if (res.ok) {
-    const data = await res.json();
-
-    const userGreeting = document.getElementById("user-greeting");
-    userGreeting.innerText = `Hello ${data.username}!`
-
-    if (data.isAdmin) {
-      const adminLink = document.getElementById("admin-link");
-      adminLink.style.display = "inline";
-    }
-  }
-}
-
 const container = document.getElementById("cargo-grid");
 const sellAllButton = document.getElementById("sell-all-btn");
 const warning = document.getElementById("warning-no-items");
@@ -174,7 +159,5 @@ sellAllButton.addEventListener("click", async () => {
         alert("Error contacting server.");
     }
 });
-
-updateNavbar();
 
 loadCargo();

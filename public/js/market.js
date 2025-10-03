@@ -1,22 +1,3 @@
-(async function updateNavbar() {
-  const res = await fetch("/session");
-  if (res.ok) {
-    const data = await res.json();
-
-    const userGreeting = document.getElementById("user-greeting");
-    userGreeting.innerText = `Hello ${data.username}!`
-
-    if (data.isAdmin) {
-      const adminLink = document.getElementById("admin-link");
-      adminLink.style.display = "inline";
-    }
-  }
-})()
-
-
-
-
-
 const auctionsGrid = document.getElementById("auctions-grid");
 const warning = document.getElementById("warning-no-items");
 
