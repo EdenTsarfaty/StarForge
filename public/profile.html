@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Profile - StarForge</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/profile.css">
+
+    <!-- Applies theme before page load -->
+    <script>
+      switch (localStorage.getItem("theme")) {
+        case "dark": {
+            document.documentElement.classList.add("dark");
+            break;
+        }
+
+        case "light": {
+            document.documentElement.classList.add("light");
+            break;
+        }
+
+        default: {
+            document.documentElement.classList.add("system");
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <!-- Redirects user to store if not logged in or not admin -->
+    <script src="js/checkProtected.js"></script>
+    <header>
+      <div class="header-left">
+        <span alt="StarForge" class="header-logo"></span>
+        <nav class="nav">
+          <a href="store.html">Store</a>
+          <a href="cart.html">Cart</a>
+          <!-- Admin link only if admin logged in -->
+          <a href="admin.html" class="admin-link">Admin</a>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <!-- Show only if user logged in -->
+        <span class="user-greeting"></span>
+
+        <!-- Either Logout (if logged in) or Login (if not) -->
+        <a href="myitems.html"></a>
+        <a href="logout.html" class="btn-logout"></a>
+
+        <!-- Theme selector -->
+        <select id="theme-select">
+          <option value="light">☀️ Light</option>
+          <option value="dark">🌙 Dark</option>
+          <option value="system">💻 System</option>
+        </select>
+        <script src="js/theme.js"></script>
+      </div>
+    </header>
+    
+    
+
+    <main>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.5" stroke="currentColor" class="size-6" style="display: none;">
+        <symbol id="icon-pencil" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+        </symbol>
+      </svg>
+
+      <svg xmlns="http://www.w3.org/2000/svg" id="eye" fill="none" stroke-width="1.5" stroke="currentColor" class="icon" style="display: none;">
+        <symbol id="icon-eye" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+        </symbol>
+      </svg>
+
+      <svg xmlns="http://www.w3.org/2000/svg" id="eye-slash" fill="none" stroke-width="1.5" stroke="currentColor" class="icon" style="display: none;">
+        <symbol id="icon-eye-slash" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+        </symbol>
+      </svg>
+
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.5" stroke="currentColor" class="size-6" style="display: none;">
+        <symbol id="icon-check" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </symbol>
+      </svg>
+
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" strokeWidth={1.5} stroke="currentColor" className="size-6" style="display: none;">
+        <symbol id="icon-x-mark" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </symbol>
+      </svg>
+
+
+
+      <h1>Profile</h1>
+      <div class="profile-container">
+        <div class="profile-fields">
+
+          <!-- Username -->
+          <div class="form-row" data-fieldtype="username">
+            <label for="username">Username:</label>
+            <input type="text" id="username" disabled>
+          </div>
+
+
+
+          <!-- Password -->
+          <div class="form-row pass" data-fieldtype="password">
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="●●●●●" disabled>
+
+            <button class="icon-btn edit">
+              <svg class="icon"><use href="#icon-pencil"></use></svg>
+            </button>
+
+            <button type="button" class="icon-btn toggle-password" tabindex="-1" style="display: none;">
+              <svg class="icon on"><use href="#icon-eye"></use></svg>
+              <svg class="icon off" style="display: none;"><use href="#icon-eye-slash"></use></svg>
+            </button>
+
+            <button class="icon-btn check" style="display: none;">
+              <svg class="icon"><use href="#icon-check"></use></svg>
+            </button>
+
+            <button class="icon-btn x-mark" style="display: none;">
+              <svg class="icon"><use href="#icon-x-mark"></use></svg>
+            </button>
+          </div>
+
+
+
+          <!-- New Password -->
+          <div class="form-row new-pass" data-fieldtype="password" style="display: none;">
+            <label for="password">New Password:</label>
+            <input type="password">
+
+            <button type="button" class="icon-btn toggle-password" tabindex="-1">
+              <svg class="icon on"><use href="#icon-eye"></use></svg>
+              <svg class="icon off" style="display: none;"><use href="#icon-eye-slash"></use></svg>
+            </button>
+          </div>
+
+
+
+          <!-- Confirm new password -->
+          <div class="form-row confirm-pass" data-fieldtype="password" style="display: none;">
+            <label for="password">Confirm Password:</label>
+            <input type="password">
+          </div>
+
+
+
+          <!-- Vessel Number -->
+          <div class="form-row" data-fieldtype="vessel">
+            <label for="vessel">Vessel Number:</label>
+            <input type="text" id="vessel" disabled>
+
+            <button class="icon-btn edit">
+              <svg class="icon"><use href="#icon-pencil"></use></svg>
+            </button>
+
+            <button class="icon-btn check" style="display: none;">
+              <svg class="icon"><use href="#icon-check"></use></svg>
+            </button>
+
+            <button class="icon-btn x-mark" style="display: none;">
+              <svg class="icon"><use href="#icon-x-mark"></use></svg>
+            </button>
+          </div>
+
+
+
+          <!-- Phone Number -->
+          <div class="form-row" data-fieldtype="phone">
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" autocomplete="mobile" inputmode="tel" disabled>
+
+            <button class="icon-btn edit">
+              <svg class="icon"><use href="#icon-pencil"></use></svg>
+            </button>
+
+            <button class="icon-btn check" style="display: none;">
+              <svg class="icon"><use href="#icon-check"></use></svg>
+            </button>
+
+            <button class="icon-btn x-mark" style="display: none;">
+              <svg class="icon"><use href="#icon-x-mark"></use></svg>
+            </button>
+          </div>
+
+
+
+          <!-- Date of Birth -->
+          <div class="form-row" data-fieldtype="DoB">
+            <label for="DoB">Date of Birth:</label>
+            <input type="date" id="DoB" autocomplete="bday" disabled>
+            
+            <button class="icon-btn edit">
+              <svg class="icon"><use href="#icon-pencil"></use></svg>
+            </button>
+
+            <button class="icon-btn check" style="display: none;">
+              <svg class="icon"><use href="#icon-check"></use></svg>
+            </button>
+
+            <button class="icon-btn x-mark" style="display: none;">
+              <svg class="icon"><use href="#icon-x-mark"></use></svg>
+            </button>
+          </div>
+
+
+
+          <!-- Email -->
+          <div class="form-row" data-fieldtype="email">
+            <label for="email">Email:</label>
+            <input type="text" id="email" autocomplete="email" inputmode="email" disabled>
+
+            <button class="icon-btn edit">
+              <svg class="icon"><use href="#icon-pencil"></use></svg>
+            </button>
+
+            <button class="icon-btn check" style="display: none;">
+              <svg class="icon"><use href="#icon-check"></use></svg>
+            </button>
+
+            <button class="icon-btn x-mark" style="display: none;">
+              <svg class="icon"><use href="#icon-x-mark"></use></svg>
+            </button>
+          </div>
+        </div>
+
+
+        <!-- Password policy -->
+        <div class="pass-policy" id="pass-policy">
+          <h3>Password policy</h3>
+          <p id="lowercase">✓ At least one lowercase letter</p>
+          <p id="uppercase">✓ At least one uppercase letter</p>
+          <p id="number">✓ At least one number</p>
+          <p id="special">✓ At least one special character</p>
+          <p id="match">✓ Passwords must match</p>
+        </div>
+      </div>
+      <script src="js/profile.js"></script>
+    </main>
+
+    <footer>
+      <p>
+        <a href="readme.html">Readme</a> | 
+        <a href="llm.html">LLM</a>
+      </p>
+    </footer>
+  </body>
+
+  <script>
+    
+  </script>
+</html>

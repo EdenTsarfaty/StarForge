@@ -199,6 +199,14 @@ button {
   border-radius: 8px;
 }
 
+.icon-btn {
+  fill:none;
+  stroke-width: 1.8;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+}
+
 main > a, form > button {
   color: var(--text-primary);
   margin-top: 1.5rem;

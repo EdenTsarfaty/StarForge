@@ -1,0 +1,42 @@
+.form-row {
+  margin: 0.5rem 0;
+}
+
+.form-row label,
+.form-row input,
+.form-row button {
+  vertical-align: end;
+}
+
+.form-row input:disabled {
+    color: var(--text-secondary);
+}
+
+/* .pass-policy {
+    position: fixed;
+} */
+
+.pass-policy {
+    display: none;
+    border-radius: 12px;
+    border: 2px solid var(--accent-hover);
+    background: var(--bg-header);
+    padding: 1.5rem 1.5rem;
+    min-width: 250px;
+    max-width: fit-content;
+    color: var(--text-secondary);
+}
+
+.pass-policy h3 {
+    color: var(--text-primary);
+}
+
+.profile-container {
+  display: flex;
+  align-items: flex-start; /* makes the box start at the top */
+  justify-content: space-between;
+}
+
+.satisfied {
+    color: rgb(24, 177, 24);
+}
