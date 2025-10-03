@@ -178,7 +178,7 @@ nav a:hover {
   color: var(--accent-hover);
 }
 
-#user-greeting {
+#user-greeting, #credits {
   font-weight: 900;
 }
 

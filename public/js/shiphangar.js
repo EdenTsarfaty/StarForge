@@ -1,3 +1,5 @@
+import { updateCredits } from "/js/navbar.js";
+
 // Global variable for session
 let ship = {};
 
@@ -89,6 +91,7 @@ async function handleRepair(part) {
         body: JSON.stringify({ part })
       });
       if (res.ok) {
+        updateCredits(-ship[part].repairPrice);
         const updatedPart = await res.json();
         ship[part] = updatedPart;
         updateCard(part, updatedPart); // only refresh this card
@@ -111,6 +114,7 @@ async function handleUpgrade(part) {
         body: JSON.stringify({ part })
       });
       if (res.ok) {
+        updateCredits(-ship[part].upgradePrice);
         const updatedPart = await res.json();
         ship[part] = updatedPart;
         updateCard(part, updatedPart); // only refresh this card

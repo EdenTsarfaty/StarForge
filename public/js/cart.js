@@ -1,3 +1,5 @@
+import { updateCart } from "/js/navbar.js"
+
 let numberOfItems = 0;
 const container = document.querySelector(".tbl-wrapper");
 const checkoutButton = document.getElementById("checkout-btn");
@@ -76,6 +78,7 @@ async function loadCart() {
                                     sum -= product.price;
                                     subtotalAmount.textContent = sum + " ⚛";
                                 }
+                                updateCart(-1);
                                 alert(msg);
                             } else {
                                 alert("Failed to remove from cart");

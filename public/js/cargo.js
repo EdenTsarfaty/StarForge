@@ -1,3 +1,6 @@
+import { updateCredits } from "/js/navbar.js";
+
+let creditsSumOfCargo = 0;
 let numberOfItems = 0;
 
 const container = document.getElementById("cargo-grid");
@@ -42,7 +45,8 @@ function loadCard(item, index, cargo, isNew = false) {
 
   // price
   const price = document.createElement("p");
-  price.innerHTML = `<strong>${item.price * item.qty} ⚛</strong>`;
+  const amount = item.price * item.qty;
+  price.innerHTML = `<strong>${amount} ⚛</strong>`;
   cardText.appendChild(price);
 
   // sell button
@@ -59,6 +63,7 @@ function loadCard(item, index, cargo, isNew = false) {
       if (res.ok) {
         numberOfItems--;
         if (numberOfItems === 0) {
+          updateCredits(amount);
           noItemsInCargo();
           msg += "\nNo more items in cargo";
         } else {
@@ -78,6 +83,8 @@ function loadCard(item, index, cargo, isNew = false) {
   cardInner.appendChild(cardText);
   cardInner.appendChild(sellButton);
   cargoCard.appendChild(cardInner);
+
+  creditsSumOfCargo += amount;
 
   // staggered animation
   cargoCard.style.animationDelay = `${index * 0.4}s`;
@@ -148,6 +155,7 @@ sellAllButton.addEventListener("click", async () => {
         });
 
         if (res.ok) {
+            updateCredits(creditsSumOfCargo);
             noItemsInCargo();
         } else {
             const errText = await res.text();

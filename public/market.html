@@ -45,7 +45,7 @@
       <div class="header-right">
         <nav class="nav">
         <!-- Show only if user logged in -->
-          <a id="user-greeting" href="profile.html" class="logged-link"><strong>Hello Admin!</strong></a>
+          <a id="user-greeting" href="profile.html" class="logged-link"></a>
           <span alt="credits" id="credits-logo" class="logged-link"></span>
           <span id="credits" class="logged-link"></span>
           <a id="cart-link" href="cart.html" class="logged-link">Cart</a>
@@ -61,7 +61,7 @@
           <option value="system">💻 System</option>
         </select>
         <script src="js/theme.js"></script>
-        <script src="js/navbar.js"></script>
+        <script type="module" src="/js/navbar.js"></script>
       </div>
     </header>
 
@@ -79,6 +79,7 @@
         <div class="modal-content">
           <h2>Place a Bid</h2>
           <p id="modal-title"></p>
+          <p>Bid will be immediately frozen on your balance. You will be refunded if another user outbids you.</p>
           <form id="bid-form">
             <label for="bid-amount">Your bid (credits):</label>
             <input type="number" id="bid-amount" required min="1">
@@ -113,7 +114,7 @@
           </form>
         </div>
       </div>
-      <script src="js/market.js"></script>
+      <script type="module" src="/js/market.js"></script>
     </main>
 
     <footer>

@@ -51,8 +51,11 @@ router.post('/auction/bid', checkAuth, async (req, res) => {
       throw new Error("User not found");
     }
 
-    if (auction.currentBidder === username) {
-      const diff = amount - auction.currentBid;
+    let sameUser = (auction.currentBidder === username);
+    const oldAmount = auction.currentBid;
+
+    if (sameUser) {
+      const diff = amount - oldAmount;
       if (user.credits < diff) {
         return res.status(403).send("Not enough credits");
       }
@@ -62,13 +65,13 @@ router.post('/auction/bid', checkAuth, async (req, res) => {
       }
     }
 
-    if (amount <= auction.currentBid) {
+    if (amount <= oldAmount) {
       return res.status(400).send("Bid must be higher than current bid")
     }
 
     await placeBid(username, auction, amount);
 
-    return res.sendStatus(200);
+    return res.status(200).json({ sameUser, oldAmount });
   } catch (err) {
     console.error(err);
     return res.status(500).send(err.message);

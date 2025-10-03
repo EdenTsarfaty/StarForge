@@ -1,3 +1,5 @@
+import { updateCart } from "/js/navbar.js"
+
 const searchbox = document.getElementById("search");
 let products;
 
@@ -49,6 +51,7 @@ async function loadProducts() {
             body: JSON.stringify({ productId: product.id })
           });
           if (res.ok) {
+            updateCart(1);
             alert(`${product.title} added to cart`);
           } else if (res.status === 409) {
             const message = await res.text();

@@ -1,3 +1,5 @@
+import { updateCredits } from "/js/navbar.js";
+
 const auctionsGrid = document.getElementById("auctions-grid");
 const warning = document.getElementById("warning-no-items");
 
@@ -47,7 +49,11 @@ function loadCard(auction, pendingAdmin = false ) {
   if (!pendingAdmin) {
     currentBid.textContent = `Current Bid: ${auction.currentBid}⚛`;
   } else {
-    currentBid.innerHTML = `Winning Bid: ${auction.currentBid}⚛<br>User: ${auction.currentBidder}`;
+    if (auction.currentBidder) {
+      currentBid.innerHTML = `Winning Bid: ${auction.currentBid}⚛<br>User: ${auction.currentBidder}`;
+    } else {
+      currentBid.innerHTML = `Winning Bid: ${auction.currentBid}⚛<br>No bids`;
+    }
   }
   actionSection.appendChild(currentBid);
 
@@ -132,9 +138,18 @@ bidForm.addEventListener("submit", async (e) => {
   });
 
   if (res.ok) {
+    const data = await res.json();
+
     const card = document.getElementById(`auction-${currentAuctionId}`)
     const updatedBid = card.querySelector(".action h3");
-    updatedBid.textContent = `Current Bid: ${amount}⚛`
+    updatedBid.textContent = `Current Bid: ${amount}⚛`;
+
+    if (data.sameUser) {
+      updateCredits(-Number(amount) + Number(data.oldAmount)); //deduct only diff
+    } else {
+      updateCredits(-Number(amount));
+    }
+
     alert("Bid placed!");
     closeBidModal();
   } else {
@@ -186,7 +201,7 @@ postForm.addEventListener("submit", async (e) => {
   if (res.ok) {
     auction.id = (await res.json()).id
     loadCard(auction);
-    alert("Bid placed!");
+    alert("Auction posted!");
     e.target.reset();
     closePostModal();
   } else {

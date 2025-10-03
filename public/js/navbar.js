@@ -1,4 +1,10 @@
-(async function updateNavbar() {
+export let availableCredits;
+let itemsInCart;
+
+const creditAmount = document.getElementById("credits");
+const cartLink = document.getElementById("cart-link");
+
+export const navbarReady = (async function updateNavbar() {
   const res = await fetch("/navbar");
   const logButton = document.getElementById("btn-log");
   if (res.ok) {
@@ -10,8 +16,8 @@
     const userGreeting = document.getElementById("user-greeting");
     userGreeting.innerText = `Hello ${data.username}!`
 
-    const creditAmount = document.getElementById("credits");
-    creditAmount.innerHTML = `<strong>${data.credits}</strong>`;
+    availableCredits = Number(data.credits);
+    creditAmount.textContent = `${availableCredits}`;
 
     const loggedInElements = document.querySelectorAll(".logged-link");
     loggedInElements.forEach(element => {
@@ -20,9 +26,9 @@
 
     const creditsLogo = document.getElementById("credits-logo");
     creditsLogo.style.display = "inline-block";
-
-    const cartLink = document.getElementById("cart-link");
-    cartLink.textContent = `Cart(${data.cart})`;
+    
+    itemsInCart = Number(data.cart);
+    cartLink.textContent = `Cart(${itemsInCart})`;
 
     if (data.isAdmin) {
       const adminLink = document.getElementById("admin-link");
@@ -34,7 +40,12 @@
   }
 })();
 
-async function updateCredits(amount) {
-    const creditAmount = document.getElementById("credits");
-    creditAmount.textContent = Number(creditAmount.textContent) + amount;
+export function updateCredits(amount) {
+    availableCredits += amount;
+    creditAmount.textContent = availableCredits;
+}
+
+export function updateCart(amount) {
+    itemsInCart += amount;
+    cartLink.textContent = `Cart(${itemsInCart})`;
 }
