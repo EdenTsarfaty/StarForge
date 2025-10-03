@@ -367,7 +367,7 @@ async function saveAll () {
 }
 
 // Exports
-export { loadAll, addUser, addProduct, removeProduct, 
+export { loadAll, addUser, saveUsers, addProduct, removeProduct, 
     updateCart, checkout, recordActivity, saveAll,
     sellCargoItem, sellCargoAll, saveCargo, firstDock,
     repairPart, upgradePart, payWithCredits, closeAuction,

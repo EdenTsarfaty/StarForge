@@ -10,7 +10,6 @@ async function loadFields () {
             fields.forEach(field => {
                 // 1. Place user's data
                 const fieldType = field.dataset.fieldtype;
-                console.log(fieldType)
                 let input;
                 if (fieldType !== "password") { //For passwords fields we do not place data
                     input = field.querySelector("input");
@@ -41,14 +40,16 @@ async function loadFields () {
                         const changeResponse = await fetch(`/profile/edit`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ [fieldType]:input.value }),
+                            body: JSON.stringify({ field:[fieldType], value: input.value }),
                             credentials: "include"
                         })
                         if (changeResponse.ok) {
                             alert(`Changed ${fieldType} successfully`);
                             input.disabled = true;
-                            input.placeholder = input.value;
-                            input.value = "";
+                            if(fieldType !== "DoB") {
+                                input.placeholder = input.value;
+                                input.value = "";
+                            }
                             editBtn.style.display = "inline";
                             finishedBtn.style.display = "none";
                             cancelBtn.style.display = "none";
@@ -109,6 +110,8 @@ async function setupPasswordField() {
     const passPolicyNumber = passPolicy.querySelector("#number");
     const passPolicySpecial = passPolicy.querySelector("#special");
     const passPolicyMatch = passPolicy.querySelector("#match");
+    const passPolicyLength = passPolicy.querySelector("#length");
+    const passPolicyExistingIncorrect = passPolicy.querySelector("#existing-incorrect");
 
 
     // Main edit button
@@ -138,9 +141,14 @@ async function setupPasswordField() {
         confirmPassInput.value = "";
         passPolicy.style.display = "none";
         passInput.placeholder = "●●●●●";
-        [passPolicyLowercase, passPolicyUppercase, passPolicyNumber, passPolicySpecial, passPolicyMatch].forEach(element => {
-            element.classList.remove("satisfied");
-        });
+        [
+            passPolicyLowercase,
+            passPolicyUppercase,
+            passPolicyNumber,
+            passPolicySpecial,
+            passPolicyMatch,
+        ].forEach(element => { element.classList.remove("satisfied"); });
+        passPolicyExistingIncorrect.style.display = "none";
     }
     cancelBtn.onclick = cancelPasswordEdit;
 
@@ -174,12 +182,13 @@ async function setupPasswordField() {
 
 
     // Password policy check
-    function checkPasswordPolicy(pass, confirmPass) {
+    function checkPasswordPolicy(pass = newPassInput.value, confirmPass = confirmPassInput.value) {
         const rules = {
             hasUpper: /[A-Z]/.test(pass),
             hasLower: /[a-z]/.test(pass),
             hasNumber: /\d/.test(pass),
             hasSpecial: /[!@#$%^&*]/.test(pass),
+            length: pass.length >= 8,
             matches: pass === confirmPass
         };
 
@@ -187,13 +196,14 @@ async function setupPasswordField() {
         rules.hasLower ? passPolicyLowercase.classList.add("satisfied") : passPolicyLowercase.classList.remove("satisfied");
         rules.hasNumber ? passPolicyNumber.classList.add("satisfied") : passPolicyNumber.classList.remove("satisfied");
         rules.hasSpecial ? passPolicySpecial.classList.add("satisfied") : passPolicySpecial.classList.remove("satisfied");
+        rules.length ? passPolicyLength.classList.add("satisfied") : passPolicyLength.classList.remove("satisfied");
         rules.matches ? passPolicyMatch.classList.add("satisfied") : passPolicyMatch.classList.remove("satisfied");
 
         return Object.values(rules).every(Boolean);
     }
 
     newPassInput.addEventListener("input", () => {
-        checkPasswordPolicy(newPassInput.value, confirmPassInput.value);
+        checkPasswordPolicy();
     });
 
     confirmPassInput.addEventListener("input", (e) => {
@@ -202,19 +212,23 @@ async function setupPasswordField() {
     });
 
     // Main finished button
-    editBtn.addEventListener("click", async () => {
-        const res = await fetch(`/profile/edit`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ password: newPassInput.value }),
-            credentials: "include"
-        })
-        if (res.ok) {
-            alert(`Changed password successfully`);
-            cancelPasswordEdit();
-        } else {
-            const msg = await res.text();
-            alert(`Could not change password.\n${msg}`);
+    finishedBtn.addEventListener("click", async () => {
+        if (checkPasswordPolicy()) {
+            const res = await fetch(`/profile/edit`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ field: "password", existing: passInput.value, new: newPassInput.value }),
+                credentials: "include"
+            })
+            if (res.ok) {
+                alert(`Changed password successfully`);
+                cancelPasswordEdit();
+            } else if (res.status === 401) {
+                passPolicyExistingIncorrect.style.display = "block";
+            } else {
+                const msg = await res.text();
+                alert(`Could not change password.\n${msg}`);
+            }
         }
     });
 }

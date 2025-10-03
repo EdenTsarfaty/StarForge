@@ -12,10 +12,6 @@
     color: var(--text-secondary);
 }
 
-/* .pass-policy {
-    position: fixed;
-} */
-
 .pass-policy {
     display: none;
     border-radius: 12px;
@@ -39,4 +35,8 @@
 
 .satisfied {
     color: rgb(24, 177, 24);
+}
+
+#existing-incorrect {
+  color:rgb(194, 44, 44);
 }
