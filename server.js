@@ -14,6 +14,7 @@ import cargoRoutes from "./modules/cargo_server.js";
 import shipRoutes from "./modules/shiphangar_server.js";
 import marketRoutes from "./modules/market_server.js";
 import profileRoutes from "./modules/profile_server.js";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 const PORT = 3000;
@@ -28,6 +29,14 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
 }));
+
+// limit each IP to 100 requests per 15 minutes
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+
+app.use(apiLimiter);
 
 await persist.loadAll();
 
