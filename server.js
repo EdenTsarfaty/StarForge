@@ -28,6 +28,10 @@ app.use(session({
   secret: 'REMOVED_SESSION_SECRET',
   resave: false,
   saveUninitialized: false,
+  cookie: {
+    secure: false,
+    httpOnly: true
+  }
 }));
 
 // limit each IP to 100 requests per 15 minutes
