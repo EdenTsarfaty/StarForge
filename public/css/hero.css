@@ -54,11 +54,6 @@ body {
     text-align: center;
 }
 
-.hero h2 {
-    font-style: italic;
-    font-weight: 400;
-}
-
 .hero #logo{
     display: flex;
     justify-content: center;
@@ -78,18 +73,23 @@ body {
   font-size: 1.5rem;
   margin: 10px 0 30px;
   opacity: 0.9;
+  font-style: italic;
+  font-weight: 400;
 }
 
 .hero #home-actions a{
   display: inline-block;
   padding: 10px 20px;
-  background-color: #0077ff;
+  margin: 5px 5px;
+  background-color: #122b2f;
+  box-shadow: 0 0 6px #4dd0e1, 0 0 10px #00e5ff;
+  border: 1px solid #00838f;
   color: white;
   text-decoration: none;
   border-radius: 5px;
 }
 .hero #home-actions a:hover {
-  background-color: #005fcc;
+  background-color: #006064;
 }
 
 footer {
