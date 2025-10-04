@@ -1,5 +1,5 @@
 {
-  "name": "fullstack",
+  "name": "starforge",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,5 +15,8 @@
     "express": "^5.1.0",
     "express-rate-limit": "^8.1.0",
     "express-session": "^1.18.2"
+  },
+  "devDependencies": {
+    "node-fetch": "^3.3.2"
   }
 }

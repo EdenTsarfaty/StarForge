@@ -269,3 +269,41 @@ footer a {
 footer a:hover {
   color: var(--accent-hover);
 }
+
+.doc {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1.5rem;
+  background-color: #122b2f;
+  color: white;
+  align-items: start;
+  max-width: 100%;
+  padding-left: 4%;
+  padding-right: 40%;
+  padding-top: 1%;
+}
+
+.doc p, .doc li {
+  margin: 0 0;
+  font-size: 14pt;
+  line-height: 1.5em;
+}
+
+.doc li, summary {
+  margin-bottom: 1.5rem;
+}
+
+.doc a {
+  color: inherit;
+}
+
+.doc summary {
+  font-size: 14pt;
+}
+
+.doc samp {
+  background-color: slategray;
+  border-radius: 5px;
+  padding: 0 5px;
+}

@@ -1,15 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Readme - StarForge</title>
-  <link rel="stylesheet" href="css/common.css">
-</head>
-<body>
-  <h1>Readme - StarForge Store</h1>
-  <p>Store name: StarForge</p>
-  <p>We sell spacecraft parts: drives, shields, tools, and more.</p>
-  <p>Additional pages: TBD</p>
-  <p>Developed by: [Your Name]</p>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Readme - StarForge</title>
+    <link rel="stylesheet" href="css/common.css">
+  </head>
+
+  <body>
+    <main class="doc">
+      <h1>Readme - StarForge</h1>
+      <p>Developed by: Eden Tsarfaty</p>
+      <p>Store name: StarForge</p>
+      <p>Github:
+        <a href="https://github.com/EdenTsarfaty/StarForge">
+          https://github.com/EdenTsarfaty/StarForge
+        </a>
+      </p>
+      <details>
+        <summary>What are you selling?</summary>
+        <p>The store sells futuristic spacecraft parts, upgrades, 
+          and rare items that users can use to improve their ships or 
+          gain special advantages.
+        </p>
+      </details>
+      <details>
+        <summary>What additional pages did you add? How to operate them?</summary>
+        <ul>
+          <li><u>Cargo:</u><br>
+            Once per day you can “unload” your vessel's cargo.
+            The cargo is filled with pre-determined random items,
+            each with its own rarity factor and possible quantity.<br>
+            Items can then be sold for store credits.
+          </li>
+          <li><u>Ship Hangar:</u><br>
+            Displays a visual representation of your ship with
+            five different components. Each component's condition deteriorates
+            daily and must be repaired.<br>
+            Repaired components can also be upgraded up to level 3.
+          </li>
+          <li><u>Market:</u><br>
+            An auction house where players can post new auctions and
+            bid on those posted by others.<br>
+            When the auction's end time has passed, an admin can close it.
+            Closing an auction grants the winning user (if there is one) the item.<br>
+            Only admins can view expired auctions.
+          </li>
+          <li><u>Profile:</u><br>
+            A page where users can view all the data they entered upon registration
+            (excluding username) and update it.<br>
+            Password changes require verifying the existing password and following
+            a strict password policy.
+          </li>
+        </ul>
+      </details>
+      <details>
+        <summary>What was hard to do?</summary>
+        <p>
+          For the most part, the implementation itself wasn't too difficult, especially later on
+          as development progressed. CSS, HTML, and JavaScript became much clearer and
+          easier to utilize as I gained more experience.<br>
+          What made it challenging, however, was the sheer length of the project - it took me
+          over two weeks to complete.
+        </p>
+      </details>
+      <details>
+        <summary>Did you have a partner?</summary>
+        <p>Unfortunately not, I was busy with Miluim for a major part of the semester
+          and by the time I attended to the project most of the students were already in pairs.
+          <p>
+      </details>
+      <details>
+        <summary>Specify all the different routes your app supports</summary>
+        <ul>
+          <li>
+            <u>Authentication routes:</u>
+            <ul>
+              <li>
+                <samp>POST /register</samp> - create a new user
+              </li>
+              <li>
+                <samp>POST /login</samp> - authenticate user
+              </li>
+              <li>
+                <samp>GET /logout</samp> - end session
+              </li>
+              <li>
+                <samp>GET /session</samp> - check logged in and admin privileges
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>Store / Cart / Checkout / Payment Routes</u>
+            <ul>
+              <li>
+                <samp>GET /products</samp> - list products for sale
+              </li>
+              <li>
+                <samp>POST /cart/add</samp> - adds an item to the cart
+              </li>
+              <li>
+                <samp>DELETE /cart/:id</samp> - removes an item from the cart corresponding with id
+              </li>
+              <li>
+                <samp>GET /cart-load</samp> - list user cart items
+              </li>
+              <li>
+                <samp>POST /pay</samp> - pays for the checked out items
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>Admin Routes</u>
+            <ul>
+              <li>
+                <samp>GET /admin/log/load</samp> - retrieves activity log
+              </li>
+              <li>
+                <samp>GET /admin/product/get</samp> - loads the details of a spcific item
+              </li>
+              <li>
+                <samp>DELETE /admin/product/delete/:id</samp> - removes an item from the store corresponding with id
+              </li>
+              <li>
+                <samp>POST /admin/product/add</samp> - adds a new item to the store
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>My Items Route</u>
+            <ul>
+              <li>
+                <samp>GET /myitems/load</samp> - list purchase history
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>Cargo Routes</u>
+            <ul>
+              <li>
+                <samp>GET /cargo/load-log</samp> - retrieves current list of items
+              </li>
+              <li>
+                <samp>POST /cargo/sell</samp> - sells a specific item
+              </li>
+              <li>
+                <samp>POST /cargo/sellAll</samp> - sells all items
+              </li>
+              <li>
+                <samp>POST /cargo/unload</samp> - randomizes and adds new items to crago
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>Ship Hangar Routes</u>
+            <ul>
+              <li>
+                <samp>GET /ship/telemetry</samp> - get current ship components status
+              </li>
+              <li>
+                <samp>POST /ship/repair</samp> - repairs an item
+              </li>
+              <li>
+                <samp>POST /ship/upgrade</samp> - upgrades an item
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>Market Routes</u>
+            <ul>
+              <li>
+                <samp>GET /market/load</samp> - list all live (or pending admin) auctions
+              </li>
+              <li>
+                <samp>POST /auction/bid</samp> - places a bid on an auction
+              </li>
+              <li>
+                <samp>POST /auction/close</samp> - closes an expired auction (admin only)
+              </li>
+              <li>
+                <samp>POST /auction/post</samp> - post a new auction on market
+              </li>
+            </ul>
+          </li>
+          <li>
+            <u>Profile Routes</u>
+            <ul>
+              <li>
+                <samp>GET /profile/load</samp> - list all profile details
+              </li>
+              <li>
+                <samp>POST /profile/edit</samp> - edits a profile attribute
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </details>
+      <details>
+        <summary>Explain how did you test it</summary>
+        <p>
+          For testing I took two approaches; For the first once, I thoroughly tested
+          the website through all the possible API fetches and frontend behaviour.<br>
+          This was also prominent through a large part of the development where I tested
+          on the go.<br>
+          For the second approach, I wrote a very extensive prompt for chatGPT to use node
+          fetch to test all my APIs calls. This was mostly technical and repeating code,
+          which was over 500 lines long, so it was perfect for AI.
+          
+        </p>
+      </details>
+    </main>
+  </body>
 </html>
