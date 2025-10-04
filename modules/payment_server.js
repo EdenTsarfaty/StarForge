@@ -4,8 +4,6 @@ import { checkout, recordActivity } from "../persist_module.js";
 
 const router = express.Router();
 
-router.get("/payment", checkAuth);
-
 router.post("/pay", checkAuth, (req, res) => {
     const username = req.session.user;
     try {

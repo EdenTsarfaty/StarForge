@@ -4,8 +4,6 @@ import { cargo, cargoItems, saveCargo, sellCargoItem, sellCargoAll } from "../pe
 
 const router = express.Router();
 
-router.get('/cargo', checkAuth);
-
 router.get('/cargo/load-log', checkAuth, async (req, res) => {
     const username = req.session.user;
     const manifest = cargo[username] || { items: {} };

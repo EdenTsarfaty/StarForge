@@ -4,8 +4,6 @@ import { users, auctions, closeAuction, placeBid, postAuction, recordActivity } 
 
 const router = express.Router();
 
-router.get('/market', checkAuth);
-
 router.get('/market/load', checkAuth, (req, res) => {
   const isAdmin = req.session.isAdmin;
   const now = Date.now();

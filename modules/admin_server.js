@@ -4,8 +4,6 @@ import { activityLog, products, addProduct, removeProduct } from "../persist_mod
 
 const router = express.Router();
 
-router.get('/admin', checkAdmin);
-
 router.get("/admin/log/load", checkAdmin, (req, res) => {
     res.json( activityLog );
 });
