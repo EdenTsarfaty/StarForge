@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.use(session({
-  secret: '123',
+  secret: '71175dc2719847cd8886fed79b744048',
   resave: false,
   saveUninitialized: false,
 }));
