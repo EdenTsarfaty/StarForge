@@ -1,5 +1,5 @@
+import readline from "readline";
 import express from "express";
-import fs from "fs";
 import session from "express-session";
 import * as persist from "./persist_module.js";
 import loginRoutes from "./modules/login_server.js";
@@ -59,4 +59,47 @@ app.use('/', profileRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
+});
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.on("line", async (input) => {
+  const [cmd, arg] = input.trim().split(" ");
+
+  if (cmd === "makeadmin") {
+    const username = arg;
+    if (!username) {
+      return console.log("Usage: makeadmin <username>");
+    }
+    if (!persist.users[username]) {
+      return console.log(`User ${username} not found`);
+    }
+    persist.users[username].isAdmin = true;
+    await persist.saveUsers();
+    console.log(`${username} is now an admin.`);
+  }
+
+  
+  if (cmd === "demote") {
+    const username = arg;
+    if (!username) {
+      return console.log("Usage: demote <username>");
+    }
+    if (!persist.users[username]) {
+      return console.log(`User ${username} not found`);
+    }
+    persist.users[username].isAdmin = false;
+    await persist.saveUsers();
+    console.log(`${username} is now a user.`);
+  }
+
+  if (cmd === "shutdown") {
+    console.log("Saving all data...");
+    await persist.saveAll();
+    console.log("Save successful");
+    process.exit(0);
+  }
 });
