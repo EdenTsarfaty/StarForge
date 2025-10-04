@@ -6,34 +6,43 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 
 router.get('/profile/load', checkAuth, (req, res) => {
-    const username = req.session.user;
-    const user = users[username];
-    if (user) {
-        return res.json({username:username, ...user})
+    try {
+        const username = req.session.user;
+        const user = users[username];
+        if (user) {
+            return res.json({username:username, ...user})
+        }
+        return res.status(404).send("User not found");
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send("Internal server error");
     }
-    return res.status(404).send("User not found");
 });
 
 router.post('/profile/edit', checkAuth, async (req, res) => {
-    const username = req.session.user;
-    const field = req.body.field;
-    const user = users[username];
-    if (field === "password") {
-        const existingPass = req.body.existing;
-        const newPass = req.body.new;
-        await handlePasswordUpdate(user, existingPass, newPass, res);
-    } else {
-        const value = req.body.value;
-        
-        // No checks for values (simplicity)
-        user[field] = value;
+    try {
+        const username = req.session.user;
+        const field = req.body.field;
+        const user = users[username];
+        if (field === "password") {
+            const existingPass = req.body.existing;
+            const newPass = req.body.new;
+            await handlePasswordUpdate(user, existingPass, newPass, res);
+        } else {
+            const value = req.body.value;
+            
+            // No checks for values (simplicity)
+            user[field] = value;
 
-        res.sendStatus(200);
+            res.sendStatus(200);
+        }
+        await recordActivity(new Date().toISOString(), username, `Changed ${field}`);
+        await saveUsers();
+        return;
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send("Internal server error");
     }
-    await recordActivity(new Date().toISOString(), username, `Changed ${field}`);
-    saveUsers();
-    return;
-
 });
 
 async function handlePasswordUpdate(user, existingPass, newPass, res) {

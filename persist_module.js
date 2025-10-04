@@ -84,32 +84,42 @@ async function saveUsers () {
 }
 
 async function addProduct(title, description, price, img_url) {
-    // Finds next ID , gaps are allowed
-    const ids = Object.keys(products).map(Number);
-    const maxId = ids.length > 0 ? Math.max(...ids) : 100;
-    const nextId = maxId + 1;
+    try {
+        // Finds next ID , gaps are allowed
+        const ids = Object.keys(products).map(Number);
+        const maxId = ids.length > 0 ? Math.max(...ids) : 100;
+        const nextId = maxId + 1;
 
-    const numericPrice = Number(price);
+        const numericPrice = Number(price);
 
-    if (isNaN(numericPrice)) {
-        throw new Error("Price must be a valid number");
+        if (isNaN(numericPrice)) {
+            throw new Error("Price must be a valid number");
+        }
+
+        //Assumes admin's responsiblity that the url isn't malicious or huge (DOS), doesn't download it locally
+        products[nextId] = { title, description, price: numericPrice, image: img_url};
+        await saveProducts();
+    } catch (err) {
+        console.log("Error adding producet:", err);
+        throw err;
     }
-
-    //Assumes admin's responsiblity that the url isn't malicious or huge (DOS), doesn't download it locally
-    products[nextId] = { title, description, price: numericPrice, image: img_url};
-    await saveProducts();
 }
 
 async function removeProduct(productId) {
-    delete products[productId];
+    try {
+        delete products[productId];
 
-    // Deletes the item from every user's cart to avoid issues while purchasing
-    Object.keys(carts).forEach(username => {
-        carts[username] = carts[username].filter(id => id !== productId);
-    });
+        // Deletes the item from every user's cart to avoid issues while purchasing
+        Object.keys(carts).forEach(username => {
+            carts[username] = carts[username].filter(id => id !== productId);
+        });
 
-    await saveCarts();
-    await saveProducts();
+        await saveCarts();
+        await saveProducts();
+    } catch (err) {
+        console.log("Error removing product:", err);
+        throw err;
+    }
 }
 
 async function saveProducts () {
@@ -123,12 +133,17 @@ async function saveProducts () {
 }
 
 async function updateCart (username, items) {
-    if (!carts[username]) {
-        carts[username] = [];
-    }
+    try {
+        if (!carts[username]) {
+            carts[username] = [];
+        }
 
-    carts[username] = items;
-    await saveCarts();
+        carts[username] = items;
+        await saveCarts();
+    } catch (err) {
+        console.error(`updateCart failed for ${username}:`, err);
+        throw err;
+    }
 }
 
 async function saveCarts () {
@@ -143,37 +158,42 @@ async function saveCarts () {
 
 
 async function checkout (username, selectedIds, cost, method) {
-    const cartItems = carts[username] || [];
+    try {
+        const cartItems = carts[username] || [];
 
-    if (selectedIds.length === 0) {
-        throw new Error("No items selected for purchase");
+        if (selectedIds.length === 0) {
+            throw new Error("No items selected for purchase");
+        }
+
+        // Saves just the titles to avoid having items removed in the future by admins
+        const purchasedTitles = selectedIds
+            .filter(id => products[id])
+            .map(id => products[id].title);
+
+        // Save to purchases
+        if (!purchases[username]) {
+            purchases[username] = [];
+        }
+        purchases[username].push({
+            date: new Date().toISOString(),
+            items: purchasedTitles,
+            cost
+        });
+
+        // Remaining items in cart - items not selected during checkout
+        carts[username] = cartItems.filter(id => !selectedIds.includes(id));
+
+        if (method === "credits") {
+            users[username].credits -= cost;
+            await saveUsers();
+        }
+
+        await saveCarts();
+        await savePurchases();
+    } catch (err) {
+        console.log("Error saving products.json:", err);
+        throw err;
     }
-
-    // Saves just the titles to avoid having items removed in the future by admins
-    const purchasedTitles = selectedIds
-        .filter(id => products[id])
-        .map(id => products[id].title);
-
-    // Save to purchases
-    if (!purchases[username]) {
-        purchases[username] = [];
-    }
-    purchases[username].push({
-        date: new Date().toISOString(),
-        items: purchasedTitles,
-        cost
-    });
-
-    // Remaining items in cart - items not selected during checkout
-    carts[username] = cartItems.filter(id => !selectedIds.includes(id));
-
-    if (method === "credits") {
-        users[username].credits -= cost;
-        await saveUsers();
-    }
-
-    await saveCarts();
-    await savePurchases();
 }
 
 async function savePurchases () {
@@ -187,8 +207,13 @@ async function savePurchases () {
 }
 
 async function recordActivity (datetime, username, action) {
+    try {
     activityLog.push({ datetime, username, action })
     await saveActivities();
+    } catch (err) {
+        console.log(`Error recording activity ${action} for user ${username} products.json:`, err);
+        throw err;
+    }
 }
 
 async function saveActivities () {
@@ -202,14 +227,24 @@ async function saveActivities () {
 }
 
 async function sellCargoItem (username, itemId) {
-    const userCargo = cargo[username].items;
-    const quantity = userCargo[itemId];
-    if (quantity) {
-        delete userCargo[itemId];
-        const price = cargoItems[itemId].price;
-        users[username].credits += price * quantity;
-        await saveCargo();
-        await saveUsers();
+    try {
+        const userCargo = cargo[username].items || {};
+        const quantity = userCargo[itemId];
+
+        if (!item) {
+            throw new Error(`Cargo item ${itemId} not found`);
+        }
+
+        if (quantity) {
+            delete userCargo[itemId];
+            const price = cargoItems[itemId].price;
+            users[username].credits += price * quantity;
+            await saveCargo();
+            await saveUsers();
+        }
+    } catch (err) {
+        console.log(`Error selling productId ${itemId} for user ${username}:`, err);
+        throw err;
     }
 }
 
@@ -297,55 +332,70 @@ async function payWithCredits (username, cost) {
 }
 
 async function placeBid (username, auction, amount) {
-    const user = users[username];
-    // First reserve and freeze funds
-    user.credits -= amount;
+    try {
+        const user = users[username];
+        // First reserve and freeze funds
+        user.credits -= amount;
 
-    // Refund the previous bidder if exists
-    if (auction.currentBidder) {
-        const prevBid = auction.currentBid;
-        const prevUser = users[auction.currentBidder];
-        prevUser.credits += prevBid;
+        // Refund the previous bidder if exists
+        if (auction.currentBidder) {
+            const prevBid = auction.currentBid;
+            const prevUser = users[auction.currentBidder];
+            prevUser.credits += prevBid;
+        }
+
+        // Update metadata
+        auction.currentBid = amount;
+        auction.currentBidder = username;
+        await saveUsers();
+        await saveAuctions();
+    } catch (err) {
+        console.log(`Error placing bid on auction ${auction.id}:`, err);
+        throw err;
     }
-
-    // Update metadata
-    auction.currentBid = amount;
-    auction.currentBidder = username;
-    await saveUsers();
-    await saveAuctions();
 }
 
 async function closeAuction (auction) {
-    auction.isOpen = false;
-    if (auction.currentBidder) { // Could be noone placed a bet
-        if (!purchases[auction.currentBidder]) {
-            purchases[auction.currentBidder] = [];
-        }
+    try {
+        auction.isOpen = false;
+        if (auction.currentBidder) { // Could be noone placed a bet
+            if (!purchases[auction.currentBidder]) {
+                purchases[auction.currentBidder] = [];
+            }
 
-        purchases[auction.currentBidder].push ({
-            date: new Date().toISOString(),
-            items: [auction.title],
-            cost: auction.currentBid
-        });
+            purchases[auction.currentBidder].push ({
+                date: new Date().toISOString(),
+                items: [auction.title],
+                cost: auction.currentBid
+            });
+        }
+        
+        await saveAuctions();
+        await savePurchases();
+    } catch (err) {
+        console.log(`Error closing auction ${auction.id}:`, err);
+        throw err;
     }
-    
-    await saveAuctions();
-    await savePurchases();
 }
 
 let nextAuctionId;
 async function postAuction(auction) {
-    auctions.push({
-        id: nextAuctionId,
-        title: auction.title,
-        description: auction.description,
-        currentBid: auction.currentBid,
-        currentBidder: null, // No bids yet
-        endTime: auction.endTime,
-        isOpen: true
-    })
-    await saveAuctions();
-    return nextAuctionId++;
+    try {
+        auctions.push({
+            id: nextAuctionId,
+            title: auction.title,
+            description: auction.description,
+            currentBid: auction.currentBid,
+            currentBidder: null, // No bids yet
+            endTime: auction.endTime,
+            isOpen: true
+        })
+        await saveAuctions();
+        return nextAuctionId++;
+    } catch (err) {
+        console.log(`Error posting new auction:`, err);
+        throw err;
+    }
 }
 
 async function saveAuctions () {

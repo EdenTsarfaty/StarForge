@@ -17,22 +17,32 @@ export function checkAdmin(req, res, next) {
 }
 
 router.get("/session", (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ error: "Unauthorized" });
+  try {
+    if (!req.session.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    res.json({ username: req.session.user, isAdmin: !!req.session.isAdmin });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal server error:", err);
   }
-  res.json({ username: req.session.user, isAdmin: !!req.session.isAdmin });
 });
 
 router.get("/navbar", (req, res) => {
-  const username = req.session.user;
-  if (!username) {
-    return res.status(401).json({ error: "Unauthorized" });
+  try {
+    const username = req.session.user;
+    if (!username) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    res.json({ username,
+      isAdmin: !!req.session.isAdmin,
+      credits: users[username]?.credits || 0,
+      cart: carts[username]?.length || 0
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal server error:", err);
   }
-  res.json({ username,
-    isAdmin: !!req.session.isAdmin,
-    credits: users[username]?.credits || 0,
-    cart: carts[username]?.length || 0
-   });
 })
 
 export default router;

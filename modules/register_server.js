@@ -14,28 +14,33 @@ function validatePassword(password) {
 }
 
 router.post('/register', async (req, res) => {
-  const { username, password, vessel, phone, dateOfBirth, email } = req.body;
-  if (username === "") {
-    return res.status(400).send("Username can't be empty");
-  }
-  
-  if (users.hasOwnProperty(username)) {
-    return res.status(400).send(`Username ${username} taken`);
-  }
-
-  if (!validatePassword(password)) {
-    return res.status(400).send("Password does not meet requirements");
-  }
-
   try {
-    await addUser(username, password, vessel, phone, dateOfBirth, email);
-  }
-  catch {
-    res.status(500).send("Please try again later");
-  }
+    const { username, password, vessel, phone, dateOfBirth, email } = req.body;
+    if (username === "") {
+      return res.status(400).send("Username can't be empty");
+    }
+    
+    if (users.hasOwnProperty(username)) {
+      return res.status(400).send(`Username ${username} taken`);
+    }
 
-  recordActivity(new Date().toISOString(), username, "Created");
-  res.status(200).send("User created successfully");
+    if (!validatePassword(password)) {
+      return res.status(400).send("Password does not meet requirements");
+    }
+
+    try {
+      await addUser(username, password, vessel, phone, dateOfBirth, email);
+    }
+    catch {
+      res.status(500).send("Please try again later");
+    }
+
+    await recordActivity(new Date().toISOString(), username, "Created");
+    res.status(200).send("User created successfully");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal server error");
+  }
 });
 
 

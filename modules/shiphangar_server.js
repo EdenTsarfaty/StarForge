@@ -15,57 +15,62 @@ const PART_DEFS = {
 
 // ---- Telemetry route ----
 router.get("/ship/telemetry", checkAuth, async (req, res) => {
-  const username = req.session.user;
-  const DAY = 1000 * 60 * 60 * 24; //ms * s * m * h
-  const today = new Date(todayDate());
+  try {
+    const username = req.session.user;
+    const DAY = 1000 * 60 * 60 * 24; //ms * s * m * h
+    const today = new Date(todayDate());
 
-  if (ships[username]) {
-    const ship = ships[username];
-    const shipWithStats = {};
+    if (ships[username]) {
+      const ship = ships[username];
+      const shipWithStats = {};
 
-    Object.entries(ship).forEach(([part, def]) => {
-      const { decayRate, baseCost } = PART_DEFS[part];
+      Object.entries(ship).forEach(([part, def]) => {
+        const { decayRate, baseCost } = PART_DEFS[part];
 
-      const lastVisit = new Date(def.repaired);
-      const daysBetween = Math.floor((today - lastVisit) / DAY);
+        const lastVisit = new Date(def.repaired);
+        const daysBetween = Math.floor((today - lastVisit) / DAY);
 
-      const condition = conditionAfterXDays(daysBetween, decayRate);
+        const condition = conditionAfterXDays(daysBetween, decayRate);
 
-      shipWithStats[part] = {
-        ...def,
-        condition,
-        repairPrice: repairCost(condition, baseCost),
-        upgradePrice: upgradeCost(def.level, baseCost)
+        shipWithStats[part] = {
+          ...def,
+          condition,
+          repairPrice: repairCost(condition, baseCost),
+          upgradePrice: upgradeCost(def.level, baseCost)
+        };
+      });
+
+      return res.json(shipWithStats);
+
+    } else {
+      // First time docking: just create dynamic parts
+      const todayISO = todayDate();
+      const ship = {
+          hull:     { repaired: todayISO, level: 1 },
+          weapons:  { repaired: todayISO, level: 1 },
+          cloaking: { repaired: todayISO, level: 1 },
+          landing:  { repaired: todayISO, level: 1 },
+          engine:   { repaired: todayISO, level: 1 }
       };
-    });
 
-    return res.json(shipWithStats);
+      await firstDock(username, ship);
 
-  } else {
-    // First time docking: just create dynamic parts
-    const todayISO = todayDate();
-    const ship = {
-        hull:     { repaired: todayISO, level: 1 },
-        weapons:  { repaired: todayISO, level: 1 },
-        cloaking: { repaired: todayISO, level: 1 },
-        landing:  { repaired: todayISO, level: 1 },
-        engine:   { repaired: todayISO, level: 1 }
-    };
+      const shipWithStats = {};
+      Object.entries(ship).forEach(([part, def]) => {
+        const { baseCost } = PART_DEFS[part];
+        shipWithStats[part] = {
+          ...def,
+          condition: 100,
+          repairPrice: 0,
+          upgradePrice: upgradeCost(def.level, baseCost)
+        };
+      });
 
-    await firstDock(username, ship);
-
-    const shipWithStats = {};
-    Object.entries(ship).forEach(([part, def]) => {
-      const { baseCost } = PART_DEFS[part];
-      shipWithStats[part] = {
-        ...def,
-        condition: 100,
-        repairPrice: 0,
-        upgradePrice: upgradeCost(def.level, baseCost)
-      };
-    });
-
-    return res.json(shipWithStats);
+      return res.json(shipWithStats);
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal server error");
   }
 });
 
@@ -119,7 +124,7 @@ router.post("/ship/repair", checkAuth, async (req, res) => {
         return res.status(403).send("Not enough credits");
     }
 
-    repairPart(username, part);
+    await repairPart(username, part);
 
     return res.json({
         part,
@@ -174,7 +179,7 @@ router.post("/ship/upgrade", checkAuth, async (req, res) => {
         return res.status(403).send("Not enough credits");
     }
 
-    upgradePart(username, part);
+    await upgradePart(username, part);
 
     return res.json({
         part,

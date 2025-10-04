@@ -5,26 +5,31 @@ import { users, auctions, closeAuction, placeBid, postAuction, recordActivity } 
 const router = express.Router();
 
 router.get('/market/load', checkAuth, (req, res) => {
-  const isAdmin = req.session.isAdmin;
-  const now = Date.now();
+  try {
+    const isAdmin = req.session.isAdmin;
+    const now = Date.now();
 
-  let market;
+    let market;
 
-  if (isAdmin) {
-    // Admin sees all, add a flag if past endTime
-    market = auctions.filter(auction => auction.isOpen === true).map(auction => {
-      const closed = new Date(auction.endTime) <= now;
-      return {
-        ...auction,
-        pendingAdmin: closed
-      };
-    });
-  } else {
-    // Normal users see only open auctions
-    market = auctions.filter(auction => new Date(auction.endTime) > now && auction.isOpen === true);
+    if (isAdmin) {
+      // Admin sees all, add a flag if past endTime
+      market = auctions.filter(auction => auction.isOpen === true).map(auction => {
+        const closed = new Date(auction.endTime) <= now;
+        return {
+          ...auction,
+          pendingAdmin: closed
+        };
+      });
+    } else {
+      // Normal users see only open auctions
+      market = auctions.filter(auction => new Date(auction.endTime) > now && auction.isOpen === true);
+    }
+
+    res.json(market);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal server error:", err);
   }
-
-  res.json(market);
 });
 
 router.post('/auction/bid', checkAuth, async (req, res) => {
@@ -72,7 +77,7 @@ router.post('/auction/bid', checkAuth, async (req, res) => {
     return res.status(200).json({ sameUser, oldAmount });
   } catch (err) {
     console.error(err);
-    return res.status(500).send(err.message);
+    return res.status(500).send(err);
   }
 });
 
@@ -90,7 +95,7 @@ router.post('/auction/close', checkAdmin, async (req, res) => {
 
   } catch (err) {
     console.error(err);
-    return res.status(500).send(err.message);
+    return res.status(500).send(err);
   }
 });
 
@@ -121,7 +126,7 @@ router.post('/auction/post', checkAuth, async (req, res) => {
 
   } catch (err) {
     console.error(err);
-    return res.status(500).send(err.message);
+    return res.status(500).send(err);
   }
 });
 

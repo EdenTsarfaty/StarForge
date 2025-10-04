@@ -4,16 +4,19 @@ import { carts, products, updateCart, recordActivity } from "../persist_module.j
 
 const router = express.Router();
 
-router.post('/cart/add', checkAuth, (req, res) => {
+router.post('/cart/add', checkAuth, async (req, res) => {
   const username = req.session.user;
   const productId = req.body.productId;
+  if (!productId || !products[productId]) {
+    return res.status(400).send("Invalid product id");
+  }
   let cart = carts[username] || [];
   if (!cart.includes(productId)) {
     cart.push(productId);
     try {
-        updateCart(username, cart);
+        await updateCart(username, cart);
 
-        recordActivity( new Date().toISOString(), username, `Added to cart (ID: ${productId})` );
+        await recordActivity( new Date().toISOString(), username, `Added to cart (ID: ${productId})` );
         res.json({ cartCount: cart.length });
     } catch (err) {
         console.error("Internal error: ", err);
@@ -24,13 +27,16 @@ router.post('/cart/add', checkAuth, (req, res) => {
   }
 });
 
-router.delete('/cart/:id', checkAuth, (req, res) => {
+router.delete('/cart/:id', checkAuth, async (req, res) => {
   const username = req.session.user;
   const productId = req.params.id;
+  if (!productId || !products[productId]) {
+    return res.status(400).send("Invalid product id");
+  }
   try {
     let cart = carts[username] || [];
     cart = cart.filter(id => id !== productId);
-    updateCart(username, cart);
+    await updateCart(username, cart);
     res.send(`${products[productId].title} removed from cart`);
   } catch (err) {
     console.error("Internal error: ", err);
@@ -39,10 +45,15 @@ router.delete('/cart/:id', checkAuth, (req, res) => {
 });
 
 router.get('/cart-load', checkAuth, (req, res) => {
-  const username = req.session.user;
-  const cart = carts[username] || []; 
-  const productsInCart = cart.map(id => ({id, ...products[id]}));
-  res.json( productsInCart );
+  try {
+    const username = req.session.user;
+    const cart = carts[username] || []; 
+    const productsInCart = cart.map(id => ({id, ...products[id]}));
+    res.json( productsInCart );
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal server error:", err);
+  }
 });
 
 export default router;

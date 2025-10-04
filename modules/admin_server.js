@@ -9,39 +9,60 @@ router.get("/admin/log/load", checkAdmin, (req, res) => {
 });
 
 router.get('/admin/product/get', checkAdmin, (req, res) => {
-    const query = req.query.title.toLowerCase();
-    const match = Object.entries(products).find(([id, p]) =>
-        p.title.toLowerCase() === query
-    );
-    if (match) {
-        const [id, product] = match;
-        res.json({ id, ...product });
-    } else {
-        return res.sendStatus(404);
+    try {
+        const query = req.query.title.toLowerCase();
+        const match = Object.entries(products).find(([id, p]) =>
+            p.title.toLowerCase() === query
+        );
+        if (match) {
+            const [id, product] = match;
+            res.json({ id, ...product });
+        } else {
+            return res.sendStatus(404);
+        }
+    } catch (err) {
+        return res.status(500).send("Internal server error:", err);
     }
 });
 
-router.delete("/admin/product/delete/:id", checkAdmin, (req, res) => {
-    const query = req.params.id;
-    // Here assumes ID is in products cuz of frontend design, if not, nothing happens
-    removeProduct(query);
-    return res.sendStatus(200);
+router.delete("/admin/product/delete/:id", checkAdmin, async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (!products[id]) {
+            return res.status(404).send("Product not found");
+        }
+
+        try {
+            await removeProduct(id);
+            res.sendStatus(200);
+        } catch (err) {
+            console.error("Error deleting product:", err);
+            res.status(500).send("Internal server error");
+        }
+    } catch (err) {
+        return res.status(500).send("Internal server error:", err);
+    }
 });
 
-router.post("/admin/product/add", checkAdmin, (req, res) => {
-    const title = req.body.title;
-    if (!title || title === "") {
-        return res.status(400).send("Title required for new product");
+router.post("/admin/product/add", checkAdmin, async (req, res) => {
+    try {
+        const title = req.body.title;
+        if (!title || title.trim() === "") {
+            return res.status(400).send("Title required for new product");
+        }
+        const price = Number(req.body.price);
+        if (!Number.isFinite(numericPrice) || price < 0) {
+            return res.status(400).send("Price must be non-negative integer");
+        }
+        const description = req.body.description;
+        //Trust admin to view image is ok before sending + frontend
+        const img_url = req.body.url;
+        await addProduct(title, description, price, img_url);
+        return res.sendStatus(200);
+    } catch (err) {
+        return res.status(500).send("Internal server error:", err);
     }
-    const price = req.body.price;
-    if (!price || price < 0) {
-        return res.status(400).send("Price must be non-negative integer");
-    }
-    const description = req.body.description;
-    //Trust admin to view image is ok before sending + frontend
-    const img_url = req.body.url;
-    addProduct(title, description, price, img_url);
-    return res.sendStatus(200);
 })
 
 export default router;
