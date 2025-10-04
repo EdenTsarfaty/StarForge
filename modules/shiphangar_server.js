@@ -4,8 +4,6 @@ import { ships, repairPart, firstDock, upgradePart, payWithCredits } from "../pe
 
 const router = express.Router();
 
-router.get('/shiphangar', checkAuth);
-
 // ---- Hardcoded definitions for all parts ----
 const PART_DEFS = {
   hull:     { decayRate: 0.95, baseCost: 500 },
