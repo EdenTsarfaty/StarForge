@@ -6,24 +6,15 @@ const router = express.Router();
 
 router.get('/market/load', checkAuth, (req, res) => {
   try {
-    const isAdmin = req.session.isAdmin;
     const now = Date.now();
 
-    let market;
-
-    if (isAdmin) {
-      // Admin sees all, add a flag if past endTime
-      market = auctions.filter(auction => auction.isOpen === true).map(auction => {
-        const closed = new Date(auction.endTime) <= now;
-        return {
-          ...auction,
-          pendingAdmin: closed
-        };
-      });
-    } else {
-      // Normal users see only open auctions
-      market = auctions.filter(auction => new Date(auction.endTime) > now && auction.isOpen === true);
-    }
+    const market = auctions.filter(auction => auction.isOpen === true).map(auction => {
+      const closed = new Date(auction.endTime) <= now;
+      return {
+        ...auction,
+        pendingAdmin: closed
+      };
+    });
 
     res.json(market);
   } catch (err) {
@@ -104,7 +95,7 @@ router.post('/auction/post', checkAuth, async (req, res) => {
     const username = req.session.user;
     const { title, description, endTime } = req.body;
     const startingPrice = Number(req.body.currentBid);
-    const auction = { title, description, currentBid: startingPrice, endTime };
+    const auction = { title, description, currentBid: startingPrice, endTime, auctionCreator: username };
 
     const now = Date.now();
     if (now > new Date(endTime).getTime()) {

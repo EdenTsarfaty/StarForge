@@ -1,5 +1,5 @@
 import express from "express";
-import { addUser, recordActivity, users } from "../persist_module.js";
+import { addUser, recordActivity, users, cargo, saveCargo } from "../persist_module.js";
 
 const router = express.Router();
 
@@ -28,10 +28,14 @@ router.post('/register', async (req, res) => {
       return res.status(400).send("Password does not meet requirements");
     }
 
+    cargo[username] = { unloadAvailable: true, items: {} };
+
     try {
       await addUser(username, password, vessel, phone, dateOfBirth, email);
+      await saveCargo();
     }
-    catch {
+    catch (err) {
+      console.log(err);
       res.status(500).send("Please try again later");
     }
 

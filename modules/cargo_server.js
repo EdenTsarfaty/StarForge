@@ -74,16 +74,15 @@ router.post('/cargo/sellAll', checkAuth, async (req, res) => {
 router.post('/cargo/unload', checkAuth, async (req, res) => {
   try {
     const username = req.session.user;
-    const today = new Date().toDateString();
 
     if (!cargo[username]) {
-      cargo[username] = { lastUnload: null, items: {} };
+      cargo[username] = { unloadAvailable: true, items: {} };
     }
 
-    if (cargo[username].lastUnload === today) {
-      return res.status(429).send("You already unloaded your cargo today.\nCargo Bay serves each customer once per day.");
+    if (cargo[username].unloadAvailable === false) {
+      return res.status(429).send("You already unloaded your cargo at this visit.\nVisit again soon (log in again).");
     }
-    cargo[username].lastUnload = today;
+    cargo[username].unloadAvailable = false;
 
     const newItems = [];
 

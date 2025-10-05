@@ -62,8 +62,8 @@ function loadCard(item, index, cargo, isNew = false) {
       let msg = await res.text();
       if (res.ok) {
         numberOfItems--;
+        updateCredits(amount);
         if (numberOfItems === 0) {
-          updateCredits(amount);
           noItemsInCargo();
           msg += "\nNo more items in cargo";
         } else {

@@ -6,11 +6,11 @@ const router = express.Router();
 
 // ---- Hardcoded definitions for all parts ----
 const PART_DEFS = {
-  hull:     { decayRate: 0.95, baseCost: 500 },
-  weapons:  { decayRate: 0.98, baseCost: 300 },
+  hull: { decayRate: 0.95, baseCost: 500 },
+  weapons: { decayRate: 0.98, baseCost: 300 },
   cloaking: { decayRate: 0.99, baseCost: 700 },
-  landing:  { decayRate: 0.94, baseCost: 200 },
-  engine:   { decayRate: 0.97, baseCost: 500 }
+  landing: { decayRate: 0.94, baseCost: 200 },
+  engine: { decayRate: 0.97, baseCost: 500 }
 };
 
 // ---- Telemetry route ----
@@ -117,6 +117,10 @@ router.post("/ship/repair", checkAuth, async (req, res) => {
     const daysBetween = Math.floor((now - lastVisit) / DAY);
 
     const condition = conditionAfterXDays(daysBetween, decayRate);
+
+    if (condition === 100) {
+      return res.status(400).send("Cant repair past repaired condition");
+    }
 
     const price = repairCost(condition, baseCost);
 

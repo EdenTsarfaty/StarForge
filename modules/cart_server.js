@@ -31,7 +31,7 @@ router.delete('/cart/:id', checkAuth, async (req, res) => {
   const username = req.session.user;
   const productId = req.params.id;
   if (!productId || !products[productId]) {
-    return res.status(400).send("Invalid product id");
+    return res.status(404).send("Invalid product id");
   }
   try {
     let cart = carts[username] || [];

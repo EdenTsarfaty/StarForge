@@ -1,4 +1,4 @@
-import { updateCredits } from "/js/navbar.js";
+import { updateCredits, isAdmin } from "/js/navbar.js";
 
 const auctionsGrid = document.getElementById("auctions-grid");
 const warning = document.getElementById("warning-no-items");
@@ -9,7 +9,7 @@ function noAuctionsInMarket() {
   warning.style.display = "block";
 }
 
-function loadCard(auction, pendingAdmin = false ) {
+function loadCard(auction, pendingAdmin = false ) { //pendingAdmin = endTime has passed
   // create container
   const auctionCard = document.createElement("div");
   auctionCard.className = "auction-card";
@@ -35,12 +35,14 @@ function loadCard(auction, pendingAdmin = false ) {
   actionSection.className = "action";
 
   // countdown
-  const countdown = document.createElement("h1");
+  let countdown;
   if (!pendingAdmin) {
+    countdown = document.createElement("h1");
     countdown.className = "countdown";
     startCountdown(countdown, auction.endTime);
   } else {
-    countdown.textContent = "Auction closed"
+    countdown = document.createElement("h2");
+    countdown.textContent = "Pending admin approval"
   }
   actionSection.appendChild(countdown);
 
@@ -50,7 +52,11 @@ function loadCard(auction, pendingAdmin = false ) {
     currentBid.textContent = `Current Bid: ${auction.currentBid}⚛`;
   } else {
     if (auction.currentBidder) {
-      currentBid.innerHTML = `Winning Bid: ${auction.currentBid}⚛<br>User: ${auction.currentBidder}`;
+      if (isAdmin) {
+        currentBid.innerHTML = `Winning Bid: ${auction.currentBid}⚛<br>User: ${auction.currentBidder}`;
+      } else {
+        currentBid.innerHTML = `Winning Bid: ${auction.currentBid}⚛<br>`;
+      }
     } else {
       currentBid.innerHTML = `Winning Bid: ${auction.currentBid}⚛<br>No bids`;
     }
@@ -58,16 +64,18 @@ function loadCard(auction, pendingAdmin = false ) {
   actionSection.appendChild(currentBid);
 
   // bid button
-  const bidButton = document.createElement("button");
   if (!pendingAdmin) {
+    const bidButton = document.createElement("button");
     bidButton.textContent = "Place bid";
     bidButton.onclick = () => { openBidModal(auction) };
-  } else {
+    actionSection.appendChild(bidButton);
+  } else if (isAdmin) {
+    const bidButton = document.createElement("button");
     bidButton.textContent = "Close auction";
     bidButton.onclick = () => { closeAuction(auction, auctionCard) };
+    actionSection.appendChild(bidButton);
   }
 
-  actionSection.appendChild(bidButton);
   cardInner.appendChild(textSection);
   cardInner.appendChild(actionSection);
   auctionCard.appendChild(cardInner);
@@ -83,7 +91,7 @@ function startCountdown(countdownTimer, endTime) {
     const diff = new Date(endTime) - now;
 
     if (diff <= 0) {
-      countdownTimer.textContent = "Auction closed";
+      countdownTimer.textContent = "Pending admin approval";
       clearInterval(timer); //stops the job
       return;
     }
@@ -251,6 +259,7 @@ async function loadAuctions() {
     const res = await fetch("/market/load");
     if (res.ok) {
       const auctions = await res.json();
+      console.log(auctions);
       if (auctions.length === 0) {
         noAuctionsInMarket();
       } else {
