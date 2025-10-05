@@ -20,10 +20,14 @@ router.get('/profile/load', checkAuth, (req, res) => {
 });
 
 router.post('/profile/edit', checkAuth, async (req, res) => {
+    const allowedFields = ["password", "vessel", "phone", "DoB", "email"];
     try {
         const username = req.session.user;
-        const field = req.body.field;
         const user = users[username];
+        const field = req.body.field;
+        if (!allowedFields.includes(field)) {
+            return res.status(400).send("Invalid profile field");
+        }
         if (field === "password") {
             const existingPass = req.body.existing;
             const newPass = req.body.new;

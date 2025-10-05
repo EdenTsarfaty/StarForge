@@ -38,7 +38,7 @@ password.addEventListener("input", () => {
 
 confirmation.addEventListener("input", (e) => {
     const val = e.target.value;
-    (val === confirmation.value) ? passPolicyMatch.classList.add("satisfied") : passPolicyMatch.classList.remove("satisfied");
+    (val === password.value) ? passPolicyMatch.classList.add("satisfied") : passPolicyMatch.classList.remove("satisfied");
 });
 
 

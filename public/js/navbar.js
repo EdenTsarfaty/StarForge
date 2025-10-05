@@ -1,4 +1,5 @@
 export let availableCredits;
+export let isAdmin = false;
 let itemsInCart;
 
 const creditAmount = document.getElementById("credits");
@@ -30,7 +31,8 @@ export const navbarReady = (async function updateNavbar() {
     itemsInCart = Number(data.cart);
     cartLink.textContent = `Cart(${itemsInCart})`;
 
-    if (data.isAdmin) {
+    isAdmin = data.isAdmin;
+    if (isAdmin) {
       const adminLink = document.getElementById("admin-link");
       adminLink.style.display = "inline";
     }

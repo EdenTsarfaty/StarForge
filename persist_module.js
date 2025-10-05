@@ -10,11 +10,14 @@ const dataDir = join(__dirname, "data");
 
 // Helper: read a file safely with fallback
 async function readJSON(filename, fallback) {
+  const filePath = join(dataDir, filename);
   try {
-    const data = await fs.readFile(join(dataDir, filename), "utf-8");
+    const data = await fs.readFile(filePath, "utf-8");
     return JSON.parse(data || JSON.stringify(fallback));
   } catch (err) {
     if (err.code === "ENOENT") {
+      await fs.mkdir(dataDir, { recursive: true });
+      await fs.writeFile(filePath, JSON.stringify(fallback, null, 2));
       // if file is missing return fallback
       return fallback;
     }
@@ -34,7 +37,23 @@ let cargo = {};
 let ships = {};
 let auctions = [];
 
-async function loadUsers() { users = await readJSON("users.json", {}); }
+async function loadUsers() {
+    users = await readJSON("users.json", {});
+    // Ensure default admin account exists
+    if (!users["admin"]) {
+        const hashed = await bcrypt.hash("admin", 10);
+        users["admin"] = {
+            password: hashed,
+            vessel: "Command",
+            phone: "000-000",
+            DoB: "1970-01-01",
+            email: "admin@starforge.com",
+            credits: 999999,
+            isAdmin: true
+        };
+        await saveUsers();
+    }
+}
 async function loadProducts() { products = await readJSON("products.json", []); }
 async function loadCarts() { carts = await readJSON("carts.json", {}); }
 async function loadPurchases() { purchases = await readJSON("purchases.json", {}); }
@@ -231,7 +250,7 @@ async function sellCargoItem (username, itemId) {
         const userCargo = cargo[username].items || {};
         const quantity = userCargo[itemId];
 
-        if (!item) {
+        if (!cargoItems[itemId]) {
             throw new Error(`Cargo item ${itemId} not found`);
         }
 
@@ -369,7 +388,10 @@ async function closeAuction (auction) {
                 cost: auction.currentBid
             });
         }
-        
+
+        users[auction.auctionCreator].credits += auction.currentBid;
+
+        await saveUsers();
         await saveAuctions();
         await savePurchases();
     } catch (err) {
@@ -388,6 +410,7 @@ async function postAuction(auction) {
             currentBid: auction.currentBid,
             currentBidder: null, // No bids yet
             endTime: auction.endTime,
+            auctionCreator: auction.auctionCreator,
             isOpen: true
         })
         await saveAuctions();

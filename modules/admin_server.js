@@ -52,7 +52,7 @@ router.post("/admin/product/add", checkAdmin, async (req, res) => {
             return res.status(400).send("Title required for new product");
         }
         const price = Number(req.body.price);
-        if (!Number.isFinite(numericPrice) || price < 0) {
+        if (!Number.isFinite(price) || price < 0) {
             return res.status(400).send("Price must be non-negative integer");
         }
         const description = req.body.description;
@@ -61,6 +61,7 @@ router.post("/admin/product/add", checkAdmin, async (req, res) => {
         await addProduct(title, description, price, img_url);
         return res.sendStatus(200);
     } catch (err) {
+        console.error(err);
         return res.status(500).send("Internal server error:", err);
     }
 })

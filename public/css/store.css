@@ -3,6 +3,10 @@
     min-width: 50%;
 }
 
+search svg {
+  max-height: 20px;
+}
+
 #product-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2 equal columns */

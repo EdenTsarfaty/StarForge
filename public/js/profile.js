@@ -40,7 +40,7 @@ async function loadFields () {
                         const changeResponse = await fetch(`/profile/edit`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ field:[fieldType], value: input.value }),
+                            body: JSON.stringify({ field:fieldType, value: input.value }),
                             credentials: "include"
                         })
                         if (changeResponse.ok) {

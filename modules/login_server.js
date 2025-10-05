@@ -1,6 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import { recordActivity, users } from "../persist_module.js";
+import { recordActivity, users, cargo } from "../persist_module.js";
 
 const router = express.Router();
 
@@ -32,6 +32,7 @@ router.post('/login', async (req, res) => {
     }
 
     await recordActivity(new Date().toISOString(), username, "Login");
+    cargo[username].unloadAvailable = true;
     res.status(200).send("Login successful");
   } catch (err) {
     console.log(err);

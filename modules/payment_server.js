@@ -26,9 +26,9 @@ router.post("/pay", checkAuth, async (req, res) => {
       return res.status(400).send("One or more items are not in your cart");
     }
 
-    let sum = 0;
+    let serverCost = 0;
     for (const id of validIds) {
-        sum = sum + products[id]?.price || 0; //Calculates the total price based on server prices
+        serverCost = serverCost + products[id]?.price || 0; //Calculates the total price based on server prices
     }
 
     if (serverCost !== clientCost) {

@@ -79,6 +79,8 @@ async function loadProducts() {
 
 loadProducts();
 
+const clearSearchBtn = document.getElementById("clear-search");
+
 searchbox.addEventListener("input", () => {
   const query = searchbox.value.toLowerCase();
   products.forEach(card => {
@@ -87,4 +89,17 @@ searchbox.addEventListener("input", () => {
     const match = title.startsWith(query) || desc.startsWith(query);
     card.style.display = match ? "block" : "none";
   });
+  if (searchbox.value !== "") {
+    clearSearchBtn.style.display = "inline";
+  } else {
+    clearSearchBtn.style.display = "none";
+  }
 });
+
+clearSearchBtn.addEventListener("click", () => {
+  searchbox.value = "";
+  clearSearchBtn.style.display = "none";
+  products.forEach(card => {
+    card.style.display = "block";
+  });
+})

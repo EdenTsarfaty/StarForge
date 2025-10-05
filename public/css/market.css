@@ -130,3 +130,8 @@
 .modal-content textarea {
   max-width: 100%;
 }
+
+.warning {
+  color: var(--warning);
+  font-weight: 700;
+}

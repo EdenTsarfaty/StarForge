@@ -1,6 +1,9 @@
 import readline from "readline";
 import express from "express";
 import session from "express-session";
+import fs from "fs";
+import http from "http";
+import https from "https";
 import * as persist from "./persist_module.js";
 import loginRoutes from "./modules/login_server.js";
 import registerRoutes from "./modules/register_server.js";
@@ -17,7 +20,8 @@ import profileRoutes from "./modules/profile_server.js";
 import rateLimit from "express-rate-limit";
 
 const app = express();
-const PORT = 3000;
+const HTTPSPORT = 3000;
+const HTTPPORT = 8081;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -57,8 +61,23 @@ app.use('/', shipRoutes);
 app.use('/', marketRoutes);
 app.use('/', profileRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+const options = {
+  key: fs.readFileSync("./certs/key.pem"),
+  cert: fs.readFileSync("./certs/cert.pem")
+};
+
+https.createServer(options, app).listen(HTTPSPORT, () => {
+  console.log(`HTTPS server running at https://localhost:${HTTPSPORT}`);
+});
+
+http.createServer((req, res) => {
+  const host = req.headers.host.replace(/:\d+$/, "");
+  const redirectURL = `https://${host}:${HTTPSPORT}${req.url}`;
+
+  res.writeHead(301, { Location: redirectURL });
+  res.end();
+}).listen(HTTPPORT, () => {
+  console.log(`HTTP redirect server running at http://localhost:${HTTPPORT}`);
 });
 
 const rl = readline.createInterface({
