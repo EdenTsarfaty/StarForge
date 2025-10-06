@@ -58,6 +58,7 @@ function updateCardCondition(card, condition, level) {
     upgradeBtn.style.display = "none";
     repairBtn.style.display = "inline";
     repairBtn.style.opacity = "0.7";
+    repairBtn.disabled = true;
   }
 }
 
@@ -83,7 +84,7 @@ function wireCardButtons(card, part) {
 
 // Repair
 async function handleRepair(part) {
-  if (confirm(`Upgrade ${part} for ${ship[part].repairPrice}⚛?`)) {
+  if (confirm(`Repair ${part} for ${ship[part].repairPrice}⚛?`)) {
     try {
       const res = await fetch("/ship/repair", {
         method: "POST",

@@ -1,4 +1,5 @@
 import readline from "readline";
+import crypto from "crypto";
 import express from "express";
 import session from "express-session";
 import fs from "fs";
@@ -29,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.use(session({
-  secret: 'REMOVED_SESSION_SECRET',
+  secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString("hex"),
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -38,10 +39,10 @@ app.use(session({
   }
 }));
 
-// limit each IP to 100 requests per 15 minutes
+// limit each IP to 200 requests per 15 minutes
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100
+  max: 200
 });
 
 app.use(apiLimiter);

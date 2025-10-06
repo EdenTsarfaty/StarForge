@@ -71,6 +71,10 @@
   margin: 0.4rem 0;
 }
 
+.auction-card h3 {
+  text-align: center;
+}
+
 .card-inner button {
     min-width: 80px;
 }
@@ -134,4 +138,10 @@
 .warning {
   color: var(--warning);
   font-weight: 700;
+}
+
+.warning-closed {
+  text-align: center;
+  color: var(--text-secondary);
+  margin: 1rem 0;
 }

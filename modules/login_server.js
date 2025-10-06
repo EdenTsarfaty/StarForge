@@ -32,7 +32,9 @@ router.post('/login', async (req, res) => {
     }
 
     await recordActivity(new Date().toISOString(), username, "Login");
-    cargo[username].unloadAvailable = true;
+    if (cargo[username]) {
+      cargo[username].unloadAvailable = true;
+    }
     res.status(200).send("Login successful");
   } catch (err) {
     console.log(err);

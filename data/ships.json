@@ -1,0 +1,24 @@
+{
+  "admin": {
+    "hull": {
+      "repaired": "2025-10-06",
+      "level": 1
+    },
+    "weapons": {
+      "repaired": "2025-10-06",
+      "level": 1
+    },
+    "cloaking": {
+      "repaired": "2025-10-06",
+      "level": 1
+    },
+    "landing": {
+      "repaired": "2025-10-06",
+      "level": 1
+    },
+    "engine": {
+      "repaired": "2025-10-06",
+      "level": 1
+    }
+  }
+}

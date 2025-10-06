@@ -1,0 +1,11 @@
+{
+  "admin": {
+    "password": "$2b$10$26Jz396bWaii/NbanAomJucLocl.O1V2TdbkBajCS8aFv08kkxAte",
+    "vessel": "1",
+    "phone": "050-0000000",
+    "DoB": "1970-01-01",
+    "email": "admin@starforge.com",
+    "credits": 100163843,
+    "isAdmin": true
+  }
+}
