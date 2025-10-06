@@ -388,7 +388,7 @@ async function closeAuction (auction) {
                 cost: auction.currentBid
             });
         }
-
+        
         users[auction.auctionCreator].credits += auction.currentBid;
 
         await saveUsers();

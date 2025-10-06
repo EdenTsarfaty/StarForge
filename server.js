@@ -38,10 +38,10 @@ app.use(session({
   }
 }));
 
-// limit each IP to 100 requests per 15 minutes
+// limit each IP to 200 requests per 15 minutes
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100
+  max: 200
 });
 
 app.use(apiLimiter);

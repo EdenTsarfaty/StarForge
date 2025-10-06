@@ -188,17 +188,21 @@ productRemoveBtn.addEventListener("click", async () => {
 
 productAddBtn.addEventListener("click", async () => {
   try {
-    const res = await fetch("/admin/product/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: productTitle.value, description: productDesc.value,
-        price: productCost.value, url: productImageURL.value })
-    });
-    if (res.ok) {
-      alert(`${productTitle.value} added!`);
-      resetForm();
+    if (await isValidImage(productImageURL.value)) {
+      const res = await fetch("/admin/product/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: productTitle.value, description: productDesc.value,
+          price: productCost.value, url: productImageURL.value })
+      });
+      if (res.ok) {
+        alert(`${productTitle.value} added!`);
+        resetForm();
+      } else {
+        alert("Could not add product");
+      }
     } else {
-      alert("Could not add product");
+      alert("Please add a valid image");
     }
   } catch (err) {
     console.error(err);

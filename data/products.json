@@ -1,0 +1,62 @@
+{
+  "100": {
+    "title": "Quantum Drive",
+    "description": "A cutting-edge propulsion core capable of bending spacetime for deep-space travel. Reliable, powerful, and slightly terrifying to stand near.",
+    "price": 250,
+    "image": "/img/quantum_drive.png"
+  },
+  "101": {
+    "title": "Plasma Shield",
+    "description": "An energy barrier that deflects cosmic radiation and hostile fire. Generates a faint hum when active—comforting, if you like staying alive.",
+    "price": 100,
+    "image": "/img/plasma_shield.png"
+  },
+  "102": {
+    "title": "Dice Good Luck Charm",
+    "description": "Twin dice strung together, perfect for hanging in the cockpit. Science may not prove luck exists, but pilots swear by them.",
+    "price": 2,
+    "image": "/img/dice.png"
+  },
+  "103": {
+    "title": "Laser Cannon Turrets",
+    "description": "Automated defense turrets equipped with rapid-fire laser arrays. Keeps raiders, pirates, and the occasional asteroid at bay.",
+    "price": 80,
+    "image": "/img/laser_cannon_turret.png"
+  },
+  "104": {
+    "title": "Stellar Map Index Upgrade",
+    "description": "Expanded navigational charts that unlock safer hyperspace lanes and hidden shortcuts between systems.",
+    "price": 40,
+    "image": "/img/stellar_map_index_upgrade.png"
+  },
+  "105": {
+    "title": "Holo Communication Array",
+    "description": "Encrypted long-range holographic comms system. Crystal-clear transmissions across light-years, with only minimal chance of alien eavesdropping.",
+    "price": 120,
+    "image": "/img/holo_communication_array.png"
+  },
+  "106": {
+    "title": "Escape Pod",
+    "description": "Compact emergency capsule with thrusters, life support, and just enough rations to make it to the nearest starbase. Comfort not included.",
+    "price": 60,
+    "image": "/img/escape_pod.png"
+  },
+  "107": {
+    "title": "Temporal Flux Stabilizer",
+    "description": "Keeps your vessel anchored to its proper timeline, preventing… unwanted side effects of faster-than-light travel.",
+    "price": 500,
+    "image": "/img/temporal_flux_stabilizer.png"
+  },
+  "108": {
+    "title": "Mineral Drill",
+    "description": "Heavy-duty extractor designed for asteroid and planetary mining. Efficient, loud, and devastating to anything made of rock.",
+    "price": 75,
+    "image": "/img/mineral_drill.png"
+  },
+  "109": {
+    "title": "Mineral Tether",
+    "description": "Magnetic grappling system that reels in mined ore, cargo, or the occasional pirate wreckage. Stronger than it looks.",
+    "price": 55,
+    "image": "/img/mineral_tether.png"
+  }
+}

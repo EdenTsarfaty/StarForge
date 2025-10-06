@@ -41,8 +41,9 @@ function loadCard(auction, pendingAdmin = false ) { //pendingAdmin = endTime has
     countdown.className = "countdown";
     startCountdown(countdown, auction.endTime);
   } else {
-    countdown = document.createElement("h2");
-    countdown.textContent = "Pending admin approval"
+    countdown = document.createElement("h3");
+    countdown.classList.add("warning-closed");
+    countdown.innerHTML = "Auction Closed<br>Pending admin approval"
   }
   actionSection.appendChild(countdown);
 
@@ -58,7 +59,7 @@ function loadCard(auction, pendingAdmin = false ) { //pendingAdmin = endTime has
         currentBid.innerHTML = `Winning Bid: ${auction.currentBid}⚛<br>`;
       }
     } else {
-      currentBid.innerHTML = `Winning Bid: ${auction.currentBid}⚛<br>No bids`;
+      currentBid.innerHTML = `Auction creator: ${auction.auctionCreator}<br>No bids`;
     }
   }
   actionSection.appendChild(currentBid);
@@ -91,7 +92,10 @@ function startCountdown(countdownTimer, endTime) {
     const diff = new Date(endTime) - now;
 
     if (diff <= 0) {
-      countdownTimer.textContent = "Pending admin approval";
+      const newH3Warning = document.createElement("h3");
+      newH3Warning.innerHTML = "Auction Closed<br>Pending admin approval";
+      newH3Warning.classList.add("warning-closed");
+      countdownTimer.replaceWith(newH3Warning);
       clearInterval(timer); //stops the job
       return;
     }
@@ -198,7 +202,6 @@ postForm.addEventListener("submit", async (e) => {
   const currentBid = Number(data.get("post-amount"));
   const endTime = (new Date(data.get("post-endtime"))).toISOString();
   const auction = { title, description, currentBid, endTime };
-  console.log(endTime);
 
   const res = await fetch("/auction/post", {
     method: "POST",
@@ -233,7 +236,7 @@ openPostModalBtn.addEventListener("click", openPostModal);
 
 // Close auctions pending for admin approval
 async function closeAuction (auction, card) {
-  if (confirm(`Close auction by ${auction.currentBidder} for ${auction.currentBid} for ${auction.title}`)) {
+  if (confirm(`Close auction by ${auction.currentBidder || auction.auctionCreator} for ${auction.currentBid} for ${auction.title}`)) {
       const res = await fetch("/auction/close", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -259,7 +262,6 @@ async function loadAuctions() {
     const res = await fetch("/market/load");
     if (res.ok) {
       const auctions = await res.json();
-      console.log(auctions);
       if (auctions.length === 0) {
         noAuctionsInMarket();
       } else {

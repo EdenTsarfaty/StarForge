@@ -1,0 +1,58 @@
+{
+  "1": {
+    "title": "Unobtanium Ore Fragments",
+    "description": "Rare mineral said to make ships faster, shields tougher, and captains richer. In practice, mostly used as a very expensive paperweight.",
+    "rarity": 0.60,
+    "price": 50,
+    "quantityRange": { "min": 1, "max": 5 },
+    "image": "/img/unobtanium.png"
+  },
+  "2": {
+    "title": "Encrypted Datacore",
+    "description": "Pulled from a smuggler’s wreck. Could contain secret hyperspace lanes, forgotten recipes, or embarrassing holo-logs. Decryption not guaranteed.",
+    "rarity": 0.75,
+    "price": 150,
+    "quantityRange": { "min": 1, "max": 2 },
+    "image": "/img/datacore.png"
+  },
+  "3": {
+    "title": "Stabilized Antimatter Canisters",
+    "description": "Safe for transport, unsafe for juggling. The kind of cargo that makes insurance brokers sweat.",
+    "rarity": 0.85,
+    "price": 300,
+    "quantityRange": { "min": 1, "max": 1 },
+    "image": "/img/antimatter.png"
+  },
+  "4": {
+    "title": "Xenon Energy Cells",
+    "description": "Enough power to keep your thrusters humming, your coffee hot, and your karaoke system dangerously loud.",
+    "rarity": 0.4,
+    "price": 20,
+    "quantityRange": { "min": 3, "max": 10 },
+    "image": "/img/xenon.png"
+  },
+  "5": {
+    "title": "Mysterious Crystal Shards",
+    "description": "They glow, hum softly at night, and sometimes whisper. Great for powering weapons… or unsettling your crewmates.",
+    "rarity": 0.65,
+    "price": 200,
+    "quantityRange": { "min": 1, "max": 3 },
+    "image": "/img/crystal.png"
+  },
+  "6": {
+    "title": "Telepathic Fish Eggs",
+    "description": "Drop one in your ear and suddenly everyone speaks your language. Side effects may include mild slime and existential dread.",
+    "rarity": 0.80,
+    "price": 800,
+    "quantityRange": { "min": 1, "max": 1 },
+    "image": "/img/fisheggs.png"
+  },
+  "7": {
+    "title": "Cosmic Mix Tape (Indestructible Edition)",
+    "description": "A relic from a long-lost pilot with questionable taste in music. Plays flawlessly even in vacuum — assuming you own a zero-G turntable.",
+    "rarity": 0.90,
+    "price": 2000,
+    "quantityRange": { "min": 1, "max": 1 },
+    "image": "/img/mixtape.png"
+  }
+}
